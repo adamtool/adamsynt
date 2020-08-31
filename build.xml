@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="adam_synt" default="jar">
-	<!-- For building the standalone version in libs.res the jars have to start with ${libfolder}/ and have to be put int ${mainfolder}/lib 
-and the classes have to start with ${mainfolder}/ and have to be located from the directory where the build_macros.xml is positioned. -->
+<project name="adam_synt" default="jar" xmlns:if="ant:if" xmlns:unless="ant:unless">
+	<!-- For building the standalone version: the jars in libs.res have to start with ${libfolder}/ and 
+         the classes have to start with ${dependenciesfolder}, or ${frameworkfolder}. -->
 
+<!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROPERTIES %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
 	<dirname property="synt.basedir" file="${ant.file.adam_synt}"/>
 
 <!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTS %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
-	<property file="${synt.basedir}/build.properties"/>
-	<import file="${mainfolder}/build_macros.xml" optional="false"/>
-	<include file="${mainfolder}/build_targets.xml" as="synt.fu" optional="false"/>
+    <property name="subproject.basedir" value="${synt.basedir}"/>
+	<property file="${subproject.basedir}/build.properties" prefix="adam"/>
+    <!-- get the correct folder for the dependencies depending on whether we build it as the main project of as a dependency itselve -->
+    <available file="${adam.dependenciesfolder.asMainProject}/" type="dir" property="isMainProject"/>
+    <available file="${adam.dependenciesfolder.asDependency}" type="dir" property="isDependency"/>
+    <property if:set="isMainProject" name="dependenciesfolder" value="${adam.dependenciesfolder.asMainProject}"/>
+    <property if:set="isDependency" name="dependenciesfolder" value="${adam.dependenciesfolder.asDependency}"/>
+    <!-- now load the property file again to correctly expand the ${dependencyfolder}. Standard ant doesn't allow overwriting properties,
+        thus, we loaded it above with a prefix -->
+	<property file="${subproject.basedir}/build.properties"/>
+
+	<import file="${frameworkfolder}/build_macros.xml" optional="false"/>
+	<include file="${frameworkfolder}/build_targets.xml" as="synt.fu" optional="false"/>
 
 <!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% PATHs %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
 	<union id="synt.jar.res">    			
@@ -42,7 +53,7 @@ and the classes have to start with ${mainfolder}/ and have to be located from th
 	<target name="jar-standalone" depends="loadProperties" description="Builds a jar with all its dependencies">
 		<antcall target="synt.fu.jar-standalone"/>
 	</target>
-    <target name="deploy" depends="clean-all,jar-standalone,deploy_protocol" description="Builds a jar with all its dependencies">
+    <target name="deploy" depends="clean-all,jar-standalone" description="Builds a jar with all its dependencies">
 		<jar destfile="adam_synt.jar">
 			<zipfileset includes="**/*.class" src="./adam_synt-standalone.jar"/>
 			<zipfileset includes="**/*.stg" src="./adam_synt-standalone.jar"/>
@@ -52,12 +63,6 @@ and the classes have to start with ${mainfolder}/ and have to be located from th
 				<attribute name="Main-Class" value="uniolunisaar.adam.main.ui.cl.AdamSynthesizer"/>
 			</manifest>
 		</jar>	
-	</target>
-    <target name="deploy_protocol" depends="clean-all,jar-standalone" description="Builds the server-protocal jar with all its dependencies">
-        <jar destfile="adam_protocol.jar">
-			<fileset dir="classes/" includes="uniolunisaar/adam/ui/cl/serverprotocol/**/*.class"/>
-		</jar>
-		<copy file="adam_protocol.jar" tofile="${libfolder}/adam_protocol.jar"/>
 	</target>
 	<target name="javadoc" depends="loadProperties" description="Creates the JavaDoc of this package.">
 		<antcall target="bounded.fu.javadoc"/>
