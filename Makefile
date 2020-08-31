@@ -1,7 +1,7 @@
 # dependencies (folders and repos should be equally ordered)
-DEPENDENCIES_FOLDERS="libs,framework,synthesizer,high-level,server-command-line-protocol,ui"
-DEPENDENCIES_REPOS="git@github.com:adamtool/libs.git,git@github.com:adamtool/framework.git,git@github.com:adamtool/synthesizer.git,git@github.com:adamtool/high-level.git,git@github.com:adamtool/server-command-line-protocol.git,git@github.com:adamtool/ui.git"
-DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD,HEAD"
+DEPENDENCIES_FOLDERS="libs,framework,synthesizer,boundedSynthesis,high-level,server-command-line-protocol,ui"
+DEPENDENCIES_REPOS="git@github.com:adamtool/libs.git,git@github.com:adamtool/framework.git,git@github.com:adamtool/synthesizer.git,git@github.com:adamtool/boundedSynthesis.git,git@github.com:adamtool/high-level.git,git@github.com:adamtool/server-command-line-protocol.git,git@github.com:adamtool/ui.git"
+DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD,HEAD,HEAD"
 # the build target
 FRAMEWORK_TARGETS = tools petrinetwithtransits
 SYNTHESIZER_TARGETS = petrigames symbolic bounded highlevel
@@ -74,7 +74,7 @@ petrigames:
 	ant -buildfile ./dependencies/synthesizer/petriGames/build.xml $(t)
 
 bounded: check_dependencies
-	ant -buildfile ./dependencies/synthesizer/boundedalgorithms/build.xml $(t)
+	ant -buildfile ./dependencies/boundedSynthesis/build.xml $(t)
 
 bdd: check_dependencies
 	ant -buildfile ./dependencies/synthesizer/symbolicalgorithms/bddapproach/build.xml $(t)

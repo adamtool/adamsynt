@@ -3,7 +3,7 @@ ${frameworkfolder}/petrinetWithTransits/classes
 ${dependenciesfolder}/synthesizer/petriGames/classes
 ${dependenciesfolder}/synthesizer/symbolicalgorithms/bddapproach/classes
 ${dependenciesfolder}/synthesizer/symbolicalgorithms/mtbddapproach/classes
-${dependenciesfolder}/synthesizer/boundedalgorithms/classes
+${dependenciesfolder}/boundedSynthesis/classes
 ${dependenciesfolder}/server-command-line-protocol/classes
 ${dependenciesfolder}/high-level/classes
 ${dependenciesfolder}/ui/classes
