@@ -1,6 +1,7 @@
 # dependencies (folders and repos should be equally ordered)
 DEPENDENCIES_FOLDERS="libs,framework,synthesizer,high-level,server-command-line-protocol,ui"
 DEPENDENCIES_REPOS="git@github.com:adamtool/libs.git,git@github.com:adamtool/framework.git,git@github.com:adamtool/synthesizer.git,git@github.com:adamtool/high-level.git,git@github.com:adamtool/server-command-line-protocol.git,git@github.com:adamtool/ui.git"
+DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD,HEAD"
 # the build target
 FRAMEWORK_TARGETS = tools petrinetwithtransits
 SYNTHESIZER_TARGETS = petrigames symbolic bounded highlevel
@@ -58,7 +59,7 @@ check_dependencies:
 	fi
 
 pull_dependencies:
-	./pull_dependencies.sh ${DEPENDENCIES_FOLDERS} ${DEPENDENCIES_REPOS}
+	./pull_dependencies.sh ${DEPENDENCIES_FOLDERS} ${DEPENDENCIES_REPOS} ${DEPENDENCIES_REV}
 
 rm_dependencies:
 	rm -rf dependencies
