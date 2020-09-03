@@ -20,7 +20,6 @@ import uniolunisaar.adam.exceptions.pg.SolverDontFitPetriGameException;
 import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.pg.SolvingException;
 import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
 import uniolunisaar.adam.generators.pg.Clerks;
 import uniolunisaar.adam.generators.pg.ManufactorySystem;
@@ -32,8 +31,6 @@ import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.util.benchmarks.Benchmarks;
 import uniolunisaar.adam.ds.graph.symbolic.bddapproach.BDDGraph;
 import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolvingObject;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolver;
 import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.util.symbolic.bddapproach.BDDTools;
 import uniolunisaar.adam.tools.Logger;
@@ -199,7 +196,7 @@ public class Adam {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().start(Benchmarks.Parts.OVERALL);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
-        BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
+        var sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
         boolean succ = sol.existsWinningStrategy();
         System.out.println("A deadlock-avoiding winning strategy for the system players is existent: " + succ);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
@@ -213,7 +210,7 @@ public class Adam {
             System.out.println("Usage: " + winStratGraph + " <path2PetriGame/filename.apt> <path2DesiredOutputFolder/filename>");
             return;
         }
-        BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
+        var sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().start(Benchmarks.Parts.OVERALL);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
@@ -243,7 +240,7 @@ public class Adam {
         Benchmarks.getInstance().start(Benchmarks.Parts.OVERALL);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         BDDSolverOptions opts = new BDDSolverOptions(!(print), true);
-        BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1 + offset], opts);
+        var sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1 + offset], opts);
         PetriGame pn = sol.getStrategy();
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().stop(Benchmarks.Parts.OVERALL);
@@ -293,7 +290,7 @@ public class Adam {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().start(Benchmarks.Parts.OVERALL);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
-        BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
+        var sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
         Pair<BDDGraph, PetriGame> strats = sol.getStrategies();
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().stop(Benchmarks.Parts.OVERALL);
