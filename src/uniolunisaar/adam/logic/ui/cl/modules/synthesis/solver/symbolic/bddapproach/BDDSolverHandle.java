@@ -16,10 +16,11 @@ import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.ds.graph.symbolic.bddapproach.BDDGraph;
 import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolver;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolverFactory;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.util.symbolic.bddapproach.BDDTools;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.bddapproach.BDDParameters;
+import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolvingObject;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
 import uniolunisaar.adam.tools.Logger;
@@ -32,18 +33,18 @@ import uniolunisaar.adam.util.PGTools;
  *
  * @author Manuel Gieseking
  */
-public class BDDSolverHandle extends SolverHandle<BDDSolver<? extends Condition<?>>, BDDParameters> {
+public class BDDSolverHandle extends SolverHandle<BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>>, BDDParameters> {
 
     public BDDSolverHandle(String input, boolean skip, String name, BDDParameters parameters, String parameterLine) throws ParseException, uniol.apt.io.parser.ParseException, IOException, NotSupportedGameException, NetNotSafeException, NoSuitableDistributionFoundException, CouldNotFindSuitableConditionException, ParameterMissingException, SolvingException {
         super(input, skip, name, parameters, parameterLine);
     }
 
     @Override
-    protected BDDSolver<? extends Condition<?>> createSolver(String input, boolean skip) throws SolvingException, ParseException, uniol.apt.io.parser.ParseException, IOException, NotSupportedGameException, NetNotSafeException, NoSuitableDistributionFoundException, CouldNotFindSuitableConditionException, ParameterMissingException, CommandLineParseException {
+    protected BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>> createSolver(String input, boolean skip) throws SolvingException, ParseException, uniol.apt.io.parser.ParseException, IOException, NotSupportedGameException, NetNotSafeException, NoSuitableDistributionFoundException, CouldNotFindSuitableConditionException, ParameterMissingException, CommandLineParseException {
         BDDSolverOptions options = new BDDSolverOptions(skip);
         parameters.setBDDParameters(options, parameterLine);
         options.setNoType2(parameters.hasNoType2(parameterLine));
-        return BDDSolverFactory.getInstance().getSolver(input, options);
+        return DistrSysBDDSolverFactory.getInstance().getSolver(input, options);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class BDDSolverHandle extends SolverHandle<BDDSolver<? extends Condition<
         }
     }
 
-    protected void saveGraphGame(String output, BDDGraph graph, BDDSolver<? extends Condition<?>> solver, boolean dot, boolean nopdf) throws IOException, InterruptedException {
+    protected void saveGraphGame(String output, BDDGraph graph, BDDSolver<? extends Condition<?>, ? extends BDDSolvingObject<?>> solver, boolean dot, boolean nopdf) throws IOException, InterruptedException {
         Logger.getInstance().addMessage("The two-player game over a finite graph contains " + graph.getSize() + " states.");
         if (dot && !nopdf) {
             BDDTools.saveGraph2DotAndPDF(output, graph, solver);

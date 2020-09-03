@@ -1,7 +1,6 @@
 package uniolunisaar.adam.logic.ui.cl.modules.exporter.synthesis;
 
 import uniolunisaar.adam.logic.ui.cl.modules.exporter.AbstractExporter;
-import uniolunisaar.adam.logic.ui.cl.modules.exporter.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -21,9 +20,9 @@ import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.ds.graph.symbolic.bddapproach.BDDGraph;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolver;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolverFactory;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
+import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.util.symbolic.bddapproach.BDDTools;
 import uniolunisaar.adam.logic.ui.cl.modules.Modules;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.ModulesSynthesizer;
@@ -69,7 +68,7 @@ public class ExporterSynth extends AbstractExporter {
             }
             String input = line.getOptionValue(PARAMETER_INPUT);
             BDDSolverOptions opts = new BDDSolverOptions(false, true);
-            BDDSolver<? extends Condition<?>> sol = BDDSolverFactory.getInstance().getSolver(input, opts);
+            DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(input, opts);
             BDDGraph g = sol.getGraphStrategy();
             String content = BDDTools.graph2Tikz(g, sol);
             try (PrintStream out = new PrintStream(getOutput(line) + ".tex")) {

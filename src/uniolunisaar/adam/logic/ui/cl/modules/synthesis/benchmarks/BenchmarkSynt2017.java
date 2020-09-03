@@ -20,12 +20,12 @@ import uniolunisaar.adam.ds.petrigame.PetriGame;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.logic.pg.calculators.CalculatorIDs;
 import uniolunisaar.adam.util.PNWTTools;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolver;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolverFactory;
+import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
+import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
-import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.logic.pg.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.tools.Logger;
 
 /**
@@ -90,9 +90,9 @@ public class BenchmarkSynt2017 extends AbstractSimpleModule {
         String file = IOParameters.getInput(line);
 
         if (line.hasOption(PARAMETER_SIZES)) {
-            BDDSolver<? extends Condition<?>> sol;
+            DistrSysBDDSolver<? extends Condition<?>> sol;
             BDDSolverOptions opts = new BDDSolverOptions(true, true);
-            sol = BDDSolverFactory.getInstance().getSolver(file, opts);
+            sol = DistrSysBDDSolverFactory.getInstance().getSolver(file, opts);
             sol.initialize();
 
             StringBuilder sb = new StringBuilder();
@@ -108,10 +108,10 @@ public class BenchmarkSynt2017 extends AbstractSimpleModule {
             String solver = line.getOptionValue(PARAMETER_SOLVER);
             if (solver.equals("bdd")) {
                 StringBuilder sb = new StringBuilder();
-                BDDSolver<? extends Condition<?>> sol = null;
+                DistrSysBDDSolver<? extends Condition<?>> sol = null;
                 try {
                     BDDSolverOptions opts = new BDDSolverOptions(true, true);
-                    sol = BDDSolverFactory.getInstance().getSolver(file, opts);
+                    sol = DistrSysBDDSolverFactory.getInstance().getSolver(file, opts);
 
                     PetriGame pn = sol.getStrategy();
                     PNWTTools.savePnwt2Dot(IOParameters.getOutput(line), pn, true);
