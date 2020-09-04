@@ -6,7 +6,7 @@ DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD,HEAD,HEAD"
 FRAMEWORK_TARGETS = tools petrinetwithtransits
 SYNTHESIZER_TARGETS = petrigames symbolic bounded highlevel
 UI_TARGETS = protocol ui adamsynt
-t=jar
+t=javac
 
 # should be executed no matter if a file with the same name exists or not
 .PHONY: check_dependencies
@@ -24,6 +24,8 @@ t=jar
 .PHONY: ui
 .PHONY: adamsynt
 #.PHONY: javadoc
+.PHONY: setJavac
+.PHONY: setJar
 .PHONY: setStandalone
 .PHONY: setDeploy
 .PHONY: setClean
@@ -95,6 +97,9 @@ ui: check_dependencies
 
 adamsynt: check_dependencies
 	ant -buildfile ./build.xml $(t)
+
+setJavac:
+	$(eval t=javac)
 
 setStandalone:
 	$(eval t=jar-standalone)
