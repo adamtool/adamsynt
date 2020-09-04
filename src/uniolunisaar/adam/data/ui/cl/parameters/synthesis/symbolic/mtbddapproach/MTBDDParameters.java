@@ -12,10 +12,10 @@ import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
 import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.pg.SolvingException;
-import uniolunisaar.adam.logic.pg.solver.distrenv.MTBDDSolverOptions;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SpecificSolverParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.SymbolicSolverParameters;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.symbolic.mtbddapproach.MTBDDSolverHandle;
+import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolverOptions;
 
 /**
  *

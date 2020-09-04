@@ -10,11 +10,11 @@ import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.pg.SolvingException;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
-import uniolunisaar.adam.logic.pg.solver.distrenv.MTBDDSolver;
-import uniolunisaar.adam.logic.pg.solver.distrenv.MTBDDSolverFactory;
-import uniolunisaar.adam.logic.pg.solver.distrenv.MTBDDSolverOptions;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.mtbddapproach.MTBDDParameters;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
+import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolver;
+import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolverFactory;
+import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolverOptions;
 
 /**
  *
