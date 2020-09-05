@@ -8,7 +8,7 @@ import uniol.apt.analysis.exception.UnboundedException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.ds.ui.cl.parameters.IOParameters;
-import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SolverParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.synthesis.SolverParameters;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 
 /**

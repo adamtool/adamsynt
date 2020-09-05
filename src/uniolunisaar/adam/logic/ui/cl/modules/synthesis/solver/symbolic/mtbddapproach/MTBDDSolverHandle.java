@@ -10,7 +10,7 @@ import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
-import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.mtbddapproach.MTBDDParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.synthesis.symbolic.mtbddapproach.MTBDDParameters;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.mtbdd.MTBDDSolver;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.mtbdd.MTBDDSolverFactory;

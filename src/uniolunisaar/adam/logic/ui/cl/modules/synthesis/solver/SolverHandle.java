@@ -24,7 +24,7 @@ import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolOutputKey
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
-import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SpecificSolverParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.synthesis.SpecificSolverParameters;
 import uniolunisaar.adam.ds.synthesis.pgwt.IPetriGame;
 import uniolunisaar.adam.util.PGTools;
 

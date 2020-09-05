@@ -16,7 +16,7 @@ import uniolunisaar.adam.exceptions.synthesis.pgwt.CalculationInterruptedExcepti
 import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolOutputKeys;
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.objects.ProtocolOutput;
-import uniolunisaar.adam.data.ui.cl.parameters.synthesis.bounded.qbfconcurrent.QBFConParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.synthesis.bounded.qbfconcurrent.QBFConParameters;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
