@@ -25,8 +25,8 @@ import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolOutputKeys;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolOutput;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolOutputKeys;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.util.PGTools;
 
 /**

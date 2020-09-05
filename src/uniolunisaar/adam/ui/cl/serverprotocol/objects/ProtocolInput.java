@@ -14,7 +14,7 @@ import uniol.apt.adt.pn.PetriNet;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.io.parser.impl.AptPNParser;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolInputKeys;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolInputKeys;
 
 /**
  * This class serves for exchanging the parameters of a command with the server.

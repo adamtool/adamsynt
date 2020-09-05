@@ -11,12 +11,12 @@ import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.synthesis.highlevel.HLPetriGame;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolInputKeys;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolInputKeys;
 import uniolunisaar.adam.logic.ui.cl.modules.server.AbstractServerModule;
 import uniolunisaar.adam.tools.Tools;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolCmds;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolOutputKeys;
-import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolOutput;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolCmds;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolOutputKeys;
+import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.util.HLTools;
 import uniolunisaar.adam.util.PGTools;
 
