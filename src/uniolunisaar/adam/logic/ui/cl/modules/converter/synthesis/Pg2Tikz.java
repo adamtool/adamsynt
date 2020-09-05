@@ -8,7 +8,7 @@ import uniol.apt.io.parser.ParseException;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolInputKeys;
-import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.ui.cl.modules.server.AbstractServerModule;
 import uniolunisaar.adam.tools.Tools;

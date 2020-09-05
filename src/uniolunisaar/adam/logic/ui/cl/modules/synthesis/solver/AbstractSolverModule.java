@@ -12,7 +12,7 @@ import uniolunisaar.adam.logic.synthesis.solver.Solver;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
 import uniolunisaar.adam.ds.synthesis.solver.SolvingObject;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SolverParameters;
 import uniolunisaar.adam.logic.ui.cl.modules.server.AbstractServerModule;
 import uniolunisaar.adam.tools.Tools;

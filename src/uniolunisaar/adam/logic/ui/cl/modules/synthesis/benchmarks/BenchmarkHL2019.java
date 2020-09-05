@@ -19,7 +19,7 @@ import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
-import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
