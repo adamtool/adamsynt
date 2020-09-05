@@ -9,8 +9,8 @@ import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.generators.pgwt.SelfOrganizingRobots;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolCmds;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
 /**
  *

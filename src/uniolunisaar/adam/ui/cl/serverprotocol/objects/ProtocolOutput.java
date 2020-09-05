@@ -1,9 +1,11 @@
 package uniolunisaar.adam.ui.cl.serverprotocol.objects;
 
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolStringAndByteFile;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolByteFile;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolOutputKeys;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolOutputKeys;
 
 /**
  *

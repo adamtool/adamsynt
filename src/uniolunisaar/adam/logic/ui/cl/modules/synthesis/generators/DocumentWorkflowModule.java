@@ -13,8 +13,8 @@ import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.generators.highlevel.DocumentWorkflowHL;
 import uniolunisaar.adam.generators.pgwt.Clerks;
 import uniolunisaar.adam.logic.synthesis.transformers.highlevel.HL2PGConverter;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolCmds;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
 /**
  *

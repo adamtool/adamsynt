@@ -5,11 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
-import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolError;
-import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolInput;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolCmds;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolError;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolInput;
 import uniolunisaar.adam.tools.Logger;
-import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolOutput;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolOutput;
 
 /**
  *

@@ -7,10 +7,10 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
-import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
-import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolInput;
-import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolOutput;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolCmds;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.AdamProtocolInputKeys;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolInput;
+import uniolunisaar.adam.ds.synthesis.ui.cl.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 
 /**
