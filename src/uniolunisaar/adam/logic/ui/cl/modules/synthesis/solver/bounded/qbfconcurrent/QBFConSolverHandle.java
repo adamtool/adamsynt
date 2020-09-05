@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.apache.commons.cli.ParseException;
 
-import uniolunisaar.adam.bounded.qbfconcurrent.solver.QbfConSolver;
-import uniolunisaar.adam.bounded.qbfconcurrent.solver.QbfConSolverFactory;
-import uniolunisaar.adam.bounded.qbfconcurrent.solver.QbfConSolverOptions;
+import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfconcurrent.QbfConSolver;
+import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfconcurrent.QbfConSolverFactory;
+import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfconcurrent.QbfConSolverOptions;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;

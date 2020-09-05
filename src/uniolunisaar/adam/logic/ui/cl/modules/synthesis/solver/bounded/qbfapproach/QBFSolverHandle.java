@@ -2,9 +2,9 @@ package uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.bounded.qbfapproa
 
 import java.io.IOException;
 import org.apache.commons.cli.ParseException;
-import uniolunisaar.adam.bounded.qbfapproach.solver.QbfSolver;
-import uniolunisaar.adam.bounded.qbfapproach.solver.QbfSolverFactory;
-import uniolunisaar.adam.bounded.qbfapproach.solver.QbfSolverOptions;
+import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfapproach.QbfSolver;
+import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfapproach.QbfSolverFactory;
+import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfapproach.QbfSolverOptions;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
