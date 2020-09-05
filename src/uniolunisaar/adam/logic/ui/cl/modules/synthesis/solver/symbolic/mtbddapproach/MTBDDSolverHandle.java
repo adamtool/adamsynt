@@ -12,9 +12,9 @@ import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.mtbddapproach.MTBDDParameters;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
-import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolver;
-import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolverFactory;
-import uniolunisaar.adam.symbolic.mtbdd.solver.MTBDDSolverOptions;
+import uniolunisaar.adam.logic.synthesis.solver.symbolic.mtbdd.MTBDDSolver;
+import uniolunisaar.adam.logic.synthesis.solver.symbolic.mtbdd.MTBDDSolverFactory;
+import uniolunisaar.adam.logic.synthesis.solver.symbolic.mtbdd.MTBDDSolverOptions;
 
 /**
  *
