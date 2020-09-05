@@ -11,26 +11,26 @@ import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniol.apt.util.Pair;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
-import uniolunisaar.adam.exceptions.pg.NetNotConcurrencyPreservingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NetNotConcurrencyPreservingException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
-import uniolunisaar.adam.exceptions.pg.SolverDontFitPetriGameException;
-import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
-import uniolunisaar.adam.exceptions.pg.SolvingException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
-import uniolunisaar.adam.generators.pg.Clerks;
-import uniolunisaar.adam.generators.pg.ManufactorySystem;
-import uniolunisaar.adam.generators.pg.Philosopher;
-import uniolunisaar.adam.generators.pg.SelfOrganizingRobots;
-import uniolunisaar.adam.generators.pg.Workflow;
-import uniolunisaar.adam.logic.pg.calculators.CalculatorIDs;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolverDontFitPetriGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CalculationInterruptedException;
+import uniolunisaar.adam.generators.pgwt.Clerks;
+import uniolunisaar.adam.generators.pgwt.ManufactorySystem;
+import uniolunisaar.adam.generators.pgwt.Philosopher;
+import uniolunisaar.adam.generators.pgwt.SelfOrganizingRobots;
+import uniolunisaar.adam.generators.pgwt.Workflow;
+import uniolunisaar.adam.logic.synthesis.pgwt.calculators.CalculatorIDs;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.util.benchmarks.synthesis.Benchmarks;
 import uniolunisaar.adam.ds.graph.symbolic.bddapproach.BDDGraph;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.util.symbolic.bddapproach.BDDTools;
 import uniolunisaar.adam.tools.Logger;
@@ -241,7 +241,7 @@ public class Adam {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         BDDSolverOptions opts = new BDDSolverOptions(!(print), true);
         var sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1 + offset], opts);
-        PetriGame pn = sol.getStrategy();
+        PetriGameWithTransits pn = sol.getStrategy();
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().stop(Benchmarks.Parts.OVERALL);
         if (print) {
@@ -291,7 +291,7 @@ public class Adam {
         Benchmarks.getInstance().start(Benchmarks.Parts.OVERALL);
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         var sol = DistrSysBDDSolverFactory.getInstance().getSolver(args[1]);
-        Pair<BDDGraph, PetriGame> strats = sol.getStrategies();
+        Pair<BDDGraph, PetriGameWithTransits> strats = sol.getStrategies();
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
         Benchmarks.getInstance().stop(Benchmarks.Parts.OVERALL);
         Benchmarks.getInstance().start(Benchmarks.Parts.DOT_SAVING);
@@ -312,7 +312,7 @@ public class Adam {
             System.out.println("ng - Use the variant, where the environment is just one of the philosophers.");
             return;
         }
-        PetriGame net = (args[1].equals("ng")) ? Philosopher.generateIndividual(Integer.parseInt(args[2]), true, true)
+        PetriGameWithTransits net = (args[1].equals("ng")) ? Philosopher.generateIndividual(Integer.parseInt(args[2]), true, true)
                 : Philosopher.generateGuided2(Integer.parseInt(args[2]), true, true);
         Tools.savePN(args[3], net);
         PNWTTools.savePnwt2DotAndPDF(args[3], net, true);
@@ -325,7 +325,7 @@ public class Adam {
             System.out.println("y - Use the liberal version (every clerk has to vote for yes)");
             return;
         }
-        PetriGame net = (args[1].equals("y")) ? Clerks.generateCP(Integer.parseInt(args[2]), true, true)
+        PetriGameWithTransits net = (args[1].equals("y")) ? Clerks.generateCP(Integer.parseInt(args[2]), true, true)
                 : Clerks.generateNonCP(Integer.parseInt(args[2]), true, true);
         Tools.savePN(args[3], net);
         PNWTTools.savePnwt2DotAndPDF(args[3], net, true);
@@ -336,7 +336,7 @@ public class Adam {
             System.out.println("Usage: " + genRobots + " <numberOfRobotsAndTools> <numberOfDestroyPhases> <path2DesiredOutputFolder/filename>");
             return;
         }
-        PetriGame net = SelfOrganizingRobots.generate(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true, true);
+        PetriGameWithTransits net = SelfOrganizingRobots.generate(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true, true);
         Tools.savePN(args[3], net);
         PNWTTools.savePnwt2DotAndPDF(args[3], net, true);
     }
@@ -346,7 +346,7 @@ public class Adam {
             System.out.println("Usage: " + genWorkflow + " <numberOfMachines> <path2DesiredOutputFolder/filename>");
             return;
         }
-        PetriGame net = ManufactorySystem.generate(Integer.parseInt(args[1]), true, true);
+        PetriGameWithTransits net = ManufactorySystem.generate(Integer.parseInt(args[1]), true, true);
         Tools.savePN(args[2], net);
         PNWTTools.savePnwt2DotAndPDF(args[2], net, true);
     }
@@ -356,7 +356,7 @@ public class Adam {
             System.out.println("Usage: " + genWorkflow2 + " <numberOfMachines> <numberOfWorkpieces> <path2DesiredOutputFolder/filename>");
             return;
         }
-        PetriGame net = Workflow.generate(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true, true);
+        PetriGameWithTransits net = Workflow.generate(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true, true);
         Tools.savePN(args[3], net);
         PNWTTools.savePnwt2DotAndPDF(args[3], net, true);
     }

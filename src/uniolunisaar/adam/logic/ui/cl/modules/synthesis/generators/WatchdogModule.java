@@ -8,8 +8,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.Watchdog;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.Watchdog;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
@@ -64,7 +64,7 @@ public class WatchdogModule extends AbstractPGGeneratorModule {
             super.addServerParameter(AdamProtocolInputKeys.GEN_WD_PO, po);
             super.handleServer(AdamProtocolCmds.GEN_WD, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = Watchdog.generate(nb_machines, search, po, true);
+            PetriGameWithTransits net = Watchdog.generate(nb_machines, search, po, true);
             save(net, line);
         }
     }

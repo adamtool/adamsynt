@@ -9,8 +9,8 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.highlevel.HLPetriGame;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.CarRouting;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.CarRouting;
 
 /**
  *
@@ -49,7 +49,7 @@ public class CarRoutingModule extends AbstractPGGeneratorModule {
 //            super.addServerParameter(AdamProtocolInputKeys.GEN_INT_1, nb_systems);
 //            super.handleServer(AdamProtocolCmds.GEN_SS, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = null;
+            PetriGameWithTransits net = null;
             HLPetriGame hlnet = null;
             if (line.hasOption(PARAMETER_VERSION)) {
                 String version = line.getOptionValue(PARAMETER_VERSION);

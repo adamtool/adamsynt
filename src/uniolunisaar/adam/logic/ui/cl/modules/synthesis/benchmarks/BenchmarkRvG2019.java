@@ -25,24 +25,24 @@ import uniolunisaar.adam.ds.highlevel.symmetries.Symmetries;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.ds.objectives.Safety;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.generators.hl.AlarmSystemHL;
 import uniolunisaar.adam.generators.hl.ConcurrentMachinesHL;
 import uniolunisaar.adam.generators.hl.DocumentWorkflowHL;
 import uniolunisaar.adam.generators.hl.PackageDeliveryHL;
-import uniolunisaar.adam.generators.pg.Clerks;
-import uniolunisaar.adam.generators.pg.SecuritySystem;
-import uniolunisaar.adam.generators.pg.Workflow;
+import uniolunisaar.adam.generators.pgwt.Clerks;
+import uniolunisaar.adam.generators.pgwt.SecuritySystem;
+import uniolunisaar.adam.generators.pgwt.Workflow;
 import uniolunisaar.adam.logic.pg.converter.hl.HL2PGConverter;
 import uniolunisaar.adam.logic.pg.builder.graph.hl.SGGBuilderHL;
 import uniolunisaar.adam.logic.pg.builder.graph.hl.SGGBuilderLL;
 import uniolunisaar.adam.logic.pg.solver.hl.bddapproach.BDDASafetyWithoutType2HLSolver;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolvingObject;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolvingObject;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.tools.Logger;
@@ -116,7 +116,7 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
         Logger.getInstance().setVerboseMessageStream(null);
 
         if (approach.equals("ll")) {
-            PetriGame game = getLLGame(elem[elem.length - 1], para);
+            PetriGameWithTransits game = getLLGame(elem[elem.length - 1], para);
             BDDSolverOptions opt = new BDDSolverOptions(true);
             if (line.hasOption(PARAMETER_BDD_LIB)) {
                 String lib = line.getOptionValue(PARAMETER_BDD_LIB);
@@ -156,7 +156,7 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
         } else if (approach.equals("hlBDD")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
-            PetriGame game = HL2PGConverter.convert(hlgame, true, true);
+            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
             Symmetries syms = hlgame.getSymmetries();
 
             BDDSolverOptions opt = new BDDSolverOptions(true);
@@ -177,7 +177,7 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
         }
     }
 
-    private PetriGame getLLGame(String id, int[] paras) throws ModuleException {
+    private PetriGameWithTransits getLLGame(String id, int[] paras) throws ModuleException {
         switch (id) {
             case "AS":
                 return SecuritySystem.createSafetyVersionForHLRep(paras[0], true);

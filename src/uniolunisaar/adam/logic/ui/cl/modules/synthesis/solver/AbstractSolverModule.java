@@ -7,7 +7,7 @@ import org.apache.commons.cli.Option;
 import uniol.apt.analysis.exception.UnboundedException;
 import uniol.apt.io.parser.ParseException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.logic.synthesis.solver.Solver;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
 import uniolunisaar.adam.ds.synthesis.solver.SolvingObject;
@@ -20,7 +20,7 @@ import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SpecificSolverParameters;
-import uniolunisaar.adam.ds.petrigame.IPetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.IPetriGame;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 
 /**

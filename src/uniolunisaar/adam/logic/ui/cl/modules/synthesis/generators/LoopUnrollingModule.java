@@ -8,8 +8,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.LoopUnrolling;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.LoopUnrolling;
 
 /**
  *
@@ -42,7 +42,7 @@ public class LoopUnrollingModule extends AbstractPGGeneratorModule {
 //            super.addServerParameter(AdamProtocolInputKeys.GEN_INT_1, nb_systems);
 //            super.handleServer(AdamProtocolCmds.GEN_SS, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = (line.hasOption(PARAMETER_NEW_CHAINS)) ? LoopUnrolling.createESafetyVersion(nb_unrollings, true, doPartition(line)) : LoopUnrolling.createESafetyVersion(nb_unrollings, false, doPartition(line));
+            PetriGameWithTransits net = (line.hasOption(PARAMETER_NEW_CHAINS)) ? LoopUnrolling.createESafetyVersion(nb_unrollings, true, doPartition(line)) : LoopUnrolling.createESafetyVersion(nb_unrollings, false, doPartition(line));
             save(net, line);
         }
     }

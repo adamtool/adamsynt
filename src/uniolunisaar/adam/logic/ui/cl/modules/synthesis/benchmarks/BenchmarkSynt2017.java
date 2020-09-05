@@ -14,16 +14,16 @@ import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfapproach.QbfSolver;
 import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfapproach.QbfSolverFactory;
 import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfapproach.QbfSolverOptions;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.logic.pg.calculators.CalculatorIDs;
+import uniolunisaar.adam.logic.synthesis.pgwt.calculators.CalculatorIDs;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.tools.Logger;
@@ -113,7 +113,7 @@ public class BenchmarkSynt2017 extends AbstractSimpleModule {
                     BDDSolverOptions opts = new BDDSolverOptions(true, true);
                     sol = DistrSysBDDSolverFactory.getInstance().getSolver(file, opts);
 
-                    PetriGame pn = sol.getStrategy();
+                    PetriGameWithTransits pn = sol.getStrategy();
                     PNWTTools.savePnwt2Dot(IOParameters.getOutput(line), pn, true);
 
                     sb.append("#Tok, #Var, #P, #T, #P_s, #T_s\n");
@@ -139,7 +139,7 @@ public class BenchmarkSynt2017 extends AbstractSimpleModule {
                     sb.append("sizes:").append(sol.getGame().getValue(CalculatorIDs.MAX_TOKEN_COUNT.name()).toString());
                     sb.append("& ").append(sol.getGame().getPlaces().size()).append("& ").append(sol.getGame().getTransitions().size());
 
-                    PetriGame pn = sol.getStrategy();
+                    PetriGameWithTransits pn = sol.getStrategy();
                     PNWTTools.savePnwt2Dot(IOParameters.getOutput(line), pn, true);
 
                     sb.append("\nsizes_strat:").append(pn.getPlaces().size()).append("  &  ").append(pn.getTransitions().size());
@@ -159,7 +159,7 @@ public class BenchmarkSynt2017 extends AbstractSimpleModule {
                         for (int j = start1; j < start1 + 6; j += 2) {
                             try {
                                 QbfSolver<? extends Condition<?>> sol = QbfSolverFactory.getInstance().getSolver(file, new QbfSolverOptions(j, i, true));
-                                PetriGame pn = sol.getStrategy();
+                                PetriGameWithTransits pn = sol.getStrategy();
                                 PNWTTools.savePnwt2Dot(IOParameters.getOutput(line), pn, true);
 
                                 StringBuilder sb = new StringBuilder();

@@ -10,7 +10,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.highlevel.HLPetriGame;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 import uniolunisaar.adam.logic.ui.cl.modules.server.AbstractServerModule;
 import uniolunisaar.adam.tools.Tools;
@@ -89,7 +89,7 @@ public abstract class AbstractPGGeneratorModule extends AbstractServerModule {
         return !(line.hasOption(PARAMETER_NO_PARTITION));
     }
 
-    void save(PetriGame game, CommandLine line) throws FileNotFoundException, ModuleException, IOException, InterruptedException {
+    void save(PetriGameWithTransits game, CommandLine line) throws FileNotFoundException, ModuleException, IOException, InterruptedException {
         String output = line.getOptionValue(PARAMETER_OUTPUT);
         Tools.savePN(output, game);
         boolean pdf = line.hasOption(PARAMETER_PDF);

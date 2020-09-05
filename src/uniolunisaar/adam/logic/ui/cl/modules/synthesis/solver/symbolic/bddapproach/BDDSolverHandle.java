@@ -5,22 +5,22 @@ import org.apache.commons.cli.ParseException;
 import uniol.apt.util.Pair;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
-import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
-import uniolunisaar.adam.exceptions.pg.SolvingException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CalculationInterruptedException;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.ds.graph.symbolic.bddapproach.BDDGraph;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.BDDSolver;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.util.symbolic.bddapproach.BDDTools;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.bddapproach.BDDParameters;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolvingObject;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolvingObject;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
 import uniolunisaar.adam.tools.Logger;
@@ -85,7 +85,7 @@ public class BDDSolverHandle extends SolverHandle<BDDSolver<? extends Condition<
                 }
                 saveGraphGame(output + "_gg_strat", graphStrat, solver, dot, nopdf);
             } else {
-                Pair<BDDGraph, PetriGame> strats = solver.getStrategies();
+                Pair<BDDGraph, PetriGameWithTransits> strats = solver.getStrategies();
                 if (tikz) {
                     if (ggs) {
                         Tools.saveFile(output + "_gg_strat.tex", BDDTools.graph2Tikz(strats.getFirst(), solver));
@@ -119,7 +119,7 @@ public class BDDSolverHandle extends SolverHandle<BDDSolver<? extends Condition<
         }
     }
 
-    protected void savePetriGame(String output, PetriGame game, Integer maxTokenCount, boolean dot, boolean nopdf) throws IOException, InterruptedException {
+    protected void savePetriGame(String output, PetriGameWithTransits game, Integer maxTokenCount, boolean dot, boolean nopdf) throws IOException, InterruptedException {
         if (dot && !nopdf) {
             PNWTTools.savePnwt2DotAndPDF(output, game, true, maxTokenCount);
             Logger.getInstance().addMessage("Saved to: " + output + ".dot", false);

@@ -7,8 +7,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.EmergencyBreakdown;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.EmergencyBreakdown;
 
 /**
  *
@@ -43,7 +43,7 @@ public class EmergencyBreakdownModule extends AbstractPGGeneratorModule {
 //            super.addServerParameter(AdamProtocolInputKeys.GEN_INT_1, nb_systems);
 //            super.handleServer(AdamProtocolCmds.GEN_SS, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = EmergencyBreakdown.createSafetyVersion(nb_crit, nb_norm, true);
+            PetriGameWithTransits net = EmergencyBreakdown.createSafetyVersion(nb_crit, nb_norm, true);
             save(net, line);
         }
     }

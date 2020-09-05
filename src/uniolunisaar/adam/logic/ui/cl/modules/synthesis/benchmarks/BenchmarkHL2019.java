@@ -12,15 +12,15 @@ import org.apache.commons.cli.OptionBuilder;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
-import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.tools.Logger;
@@ -155,7 +155,7 @@ public class BenchmarkHL2019 extends AbstractSimpleModule {
         }
         // Output strategy
         try {
-            PetriGame pn = sol.getStrategy();
+            PetriGameWithTransits pn = sol.getStrategy();
             PNWTTools.savePnwt2Dot(IOParameters.getOutput(line), pn, true);
             if (output_bench != null) {
                 try (BufferedWriter wr = new BufferedWriter(new FileWriter(output_bench, true))) {

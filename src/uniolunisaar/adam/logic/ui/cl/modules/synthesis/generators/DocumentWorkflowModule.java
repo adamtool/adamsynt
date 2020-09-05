@@ -9,9 +9,9 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.highlevel.HLPetriGame;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.generators.hl.DocumentWorkflowHL;
-import uniolunisaar.adam.generators.pg.Clerks;
+import uniolunisaar.adam.generators.pgwt.Clerks;
 import uniolunisaar.adam.logic.pg.converter.hl.HL2PGConverter;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
@@ -75,12 +75,12 @@ public class DocumentWorkflowModule extends AbstractPGGeneratorModule {
             if (ll) {
                 HLPetriGame net = allyes ? DocumentWorkflowHL.generateDWs(nb_clerks, doPartition(line))
                         : DocumentWorkflowHL.generateDW(nb_clerks, doPartition(line));
-                PetriGame pnet = HL2PGConverter.convert(net);
+                PetriGameWithTransits pnet = HL2PGConverter.convert(net);
                 save(pnet, line);
             }
 
             if (!hl && !ll) {
-                PetriGame net = allyes ? Clerks.generateCP(nb_clerks, doPartition(line), false)
+                PetriGameWithTransits net = allyes ? Clerks.generateCP(nb_clerks, doPartition(line), false)
                         : Clerks.generateNonCP(nb_clerks, doPartition(line), false);
                 save(net, line);
             }

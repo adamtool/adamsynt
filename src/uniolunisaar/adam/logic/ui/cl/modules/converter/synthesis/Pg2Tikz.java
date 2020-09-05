@@ -5,7 +5,7 @@ import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import uniol.apt.io.parser.ParseException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
@@ -49,7 +49,7 @@ public class Pg2Tikz extends AbstractServerModule {
             Tools.saveFile(output + ".tex", tikz);
             closeServer();
         } else {
-            Tools.saveFile(IOParameters.getOutput(line), PGTools.pg2Tikz(new PetriGame(Tools.getPetriNet(IOParameters.getInput(line)))));
+            Tools.saveFile(IOParameters.getOutput(line), PGTools.pg2Tikz(new PetriGameWithTransits(Tools.getPetriNet(IOParameters.getInput(line)))));
         }
     }
 

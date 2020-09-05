@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 import uniol.apt.io.parser.ParseException;
 import uniolunisaar.adam.ds.highlevel.HLPetriGame;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.logic.pg.converter.hl.HL2PGConverter;
 import uniolunisaar.adam.tools.Tools;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
@@ -27,7 +27,7 @@ public class HL2LL extends AbstractConverterModule {
         super.execute(line);
         String output = IOParameters.getOutput(line);
         HLPetriGame hlgame = null; // TODO: write a APT-HL-Parser
-        PetriGame game = HL2PGConverter.convert(hlgame);
+        PetriGameWithTransits game = HL2PGConverter.convert(hlgame);
         String apt = PGTools.getAPT(game, false, false);
         Tools.saveFile(output, apt);
         PGTools.savePG2DotAndPDF(apt, IOParameters.getOutput(line), false);

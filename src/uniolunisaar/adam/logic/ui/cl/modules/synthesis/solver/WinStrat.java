@@ -3,8 +3,8 @@ package uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver;
 import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 import uniol.apt.analysis.exception.UnboundedException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 
 /**

@@ -7,8 +7,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.ManufactorySystem;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.ManufactorySystem;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
@@ -39,7 +39,7 @@ public class JopProcessingModule extends AbstractPGGeneratorModule {
             super.addServerParameter(AdamProtocolInputKeys.GEN_INT_1, nb_machines);
             super.handleServer(AdamProtocolCmds.GEN_JP, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = ManufactorySystem.generate(nb_machines, doPartition(line), false);
+            PetriGameWithTransits net = ManufactorySystem.generate(nb_machines, doPartition(line), false);
             save(net, line);
         }
     }

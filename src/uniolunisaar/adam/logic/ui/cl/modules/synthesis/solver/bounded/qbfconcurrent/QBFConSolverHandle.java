@@ -8,12 +8,12 @@ import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfconcurrent.QbfConSolv
 import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfconcurrent.QbfConSolverFactory;
 import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfconcurrent.QbfConSolverOptions;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
-import uniolunisaar.adam.exceptions.pg.SolvingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
-import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolOutputKeys;
 import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.bounded.qbfconcurrent.QBFConParameters;

@@ -10,11 +10,11 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
-import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
-import uniolunisaar.adam.exceptions.pg.SolvingException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.logic.synthesis.solver.Solver;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
 import uniolunisaar.adam.ds.synthesis.solver.SolvingObject;
@@ -23,7 +23,7 @@ import uniolunisaar.adam.exceptions.ui.cl.synthesis.NoSuitableSolverException;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.bounded.qbfapproach.QBFParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.bounded.qbfconcurrent.QBFConParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.symbolic.mtbddapproach.MTBDDParameters;
-import uniolunisaar.adam.ds.petrigame.IPetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.IPetriGame;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.SolverHandle;
 
 /**

@@ -9,9 +9,9 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.highlevel.HLPetriGame;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.generators.hl.ConcurrentMachinesHL;
-import uniolunisaar.adam.generators.pg.Workflow;
+import uniolunisaar.adam.generators.pgwt.Workflow;
 import uniolunisaar.adam.logic.pg.converter.hl.HL2PGConverter;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
@@ -64,7 +64,7 @@ public class ConcurrentMachinesModule extends AbstractPGGeneratorModule {
             super.addServerParameter(AdamProtocolInputKeys.GEN_INT_2, nb_workpieces);
             super.handleServer(AdamProtocolCmds.GEN_CM, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = null;
+            PetriGameWithTransits net = null;
             HLPetriGame hlnet = null;
             if (line.hasOption(PARAMETER_VERSION)) {
                 String version = line.getOptionValue(PARAMETER_VERSION);

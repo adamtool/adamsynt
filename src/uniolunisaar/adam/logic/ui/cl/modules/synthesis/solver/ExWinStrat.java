@@ -6,7 +6,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import uniol.apt.analysis.exception.UnboundedException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SolverParameters;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;

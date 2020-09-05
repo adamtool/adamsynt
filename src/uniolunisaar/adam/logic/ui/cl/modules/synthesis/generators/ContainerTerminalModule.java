@@ -7,8 +7,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.ContainerTerminal;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.ContainerTerminal;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 
@@ -41,7 +41,7 @@ public class ContainerTerminalModule extends AbstractPGGeneratorModule {
             super.addServerParameter(AdamProtocolInputKeys.GEN_INT_1, nb_systems);
             super.handleServer(AdamProtocolCmds.GEN_CT, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = ContainerTerminal.createSafetyVersion(nb_systems, true);
+            PetriGameWithTransits net = ContainerTerminal.createSafetyVersion(nb_systems, true);
             save(net, line);
         }
     }

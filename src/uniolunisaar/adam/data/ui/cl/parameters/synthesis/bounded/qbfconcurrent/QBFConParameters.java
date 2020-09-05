@@ -12,10 +12,10 @@ import org.apache.commons.cli.ParseException;
 import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfconcurrent.QbfConSolverOptions;
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
-import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
-import uniolunisaar.adam.exceptions.pg.SolvingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SpecificSolverParameters;
 import uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.bounded.qbfconcurrent.QBFConSolverHandle;
 

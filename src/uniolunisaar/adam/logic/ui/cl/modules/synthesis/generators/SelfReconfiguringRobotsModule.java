@@ -7,8 +7,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.SelfOrganizingRobots;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.SelfOrganizingRobots;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
@@ -46,7 +46,7 @@ public class SelfReconfiguringRobotsModule extends AbstractPGGeneratorModule {
             super.addServerParameter(AdamProtocolInputKeys.GEN_INT_2, nb_destroy);
             super.handleServer(AdamProtocolCmds.GEN_SR, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
-            PetriGame net = SelfOrganizingRobots.generate(nb_robots, nb_destroy, doPartition(line), false);
+            PetriGameWithTransits net = SelfOrganizingRobots.generate(nb_robots, nb_destroy, doPartition(line), false);
             save(net, line);
         }
     }

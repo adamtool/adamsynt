@@ -9,23 +9,23 @@ import org.apache.commons.cli.ParseException;
 
 import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
-import uniolunisaar.adam.exceptions.pg.ParameterMissingException;
-import uniolunisaar.adam.exceptions.pg.NotSupportedGameException;
-import uniolunisaar.adam.exceptions.pg.SolvingException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.logic.synthesis.solver.Solver;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
 import uniolunisaar.adam.ds.synthesis.solver.SolvingObject;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.exceptions.pg.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CalculationInterruptedException;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolOutputKeys;
 import uniolunisaar.adam.ui.cl.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
 import uniolunisaar.adam.data.ui.cl.parameters.synthesis.SpecificSolverParameters;
-import uniolunisaar.adam.ds.petrigame.IPetriGame;
+import uniolunisaar.adam.ds.synthesis.pgwt.IPetriGame;
 import uniolunisaar.adam.util.PGTools;
 
 /**
@@ -79,7 +79,7 @@ public abstract class SolverHandle<S extends Solver<? extends IPetriGame, ? exte
         if (pout == null) {
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS
 //            Benchmarks.getInstance().stop(Benchmarks.Parts.OVERALL);
-            PetriGame pn = solver.getStrategy();
+            PetriGameWithTransits pn = solver.getStrategy();
 //            Benchmarks.getInstance().start(Benchmarks.Parts.DOT_SAVING);
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TODO : FOR BENCHMARKS                   
             if (tikz) {
@@ -104,7 +104,7 @@ public abstract class SolverHandle<S extends Solver<? extends IPetriGame, ? exte
         return solver;
     }
 
-    protected void savePetriGame(String output, PetriGame game, boolean dot, boolean nopdf) throws IOException, InterruptedException {
+    protected void savePetriGame(String output, PetriGameWithTransits game, boolean dot, boolean nopdf) throws IOException, InterruptedException {
         if (dot && !nopdf) {
             PGTools.savePG2DotAndPDF(output, game, false);
             Logger.getInstance().addMessage("Saved to: " + output + ".dot", false);

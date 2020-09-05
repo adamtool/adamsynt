@@ -8,8 +8,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.petrigame.PetriGame;
-import uniolunisaar.adam.generators.pg.Philosopher;
+import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.generators.pgwt.Philosopher;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolCmds;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
@@ -51,7 +51,7 @@ public class PhilosophersModule extends AbstractPGGeneratorModule {
             super.handleServer(AdamProtocolCmds.GEN_PHIL, line.getOptionValue(PARAMETER_OUTPUT));
         } else {
             boolean partition = doPartition(line);
-            PetriGame net = nonguided ? Philosopher.generateIndividual(nb_phils, partition, false)
+            PetriGameWithTransits net = nonguided ? Philosopher.generateIndividual(nb_phils, partition, false)
                     : Philosopher.generateGuided2(nb_phils, partition, false);
             save(net, line);
         }
