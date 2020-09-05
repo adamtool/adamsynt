@@ -23,7 +23,7 @@ import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.tools.Logger;
-import uniolunisaar.adam.util.benchmarks.Benchmarks;
+import uniolunisaar.adam.util.benchmarks.synthesis.Benchmarks;
 
 /**
  *

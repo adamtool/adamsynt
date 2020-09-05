@@ -13,7 +13,7 @@ import org.apache.commons.io.IOUtils;
 import uniol.apt.adt.pn.PetriNet;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.io.parser.impl.AptPNParser;
-import uniolunisaar.adam.ds.solver.SolverOptions;
+import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
 import uniolunisaar.adam.ui.cl.serverprotocol.AdamProtocolInputKeys;
 
 /**

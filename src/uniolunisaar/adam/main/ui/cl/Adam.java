@@ -28,7 +28,7 @@ import uniolunisaar.adam.generators.pg.SelfOrganizingRobots;
 import uniolunisaar.adam.generators.pg.Workflow;
 import uniolunisaar.adam.logic.pg.calculators.CalculatorIDs;
 import uniolunisaar.adam.util.PNWTTools;
-import uniolunisaar.adam.util.benchmarks.Benchmarks;
+import uniolunisaar.adam.util.benchmarks.synthesis.Benchmarks;
 import uniolunisaar.adam.ds.graph.symbolic.bddapproach.BDDGraph;
 import uniolunisaar.adam.ds.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.logic.distrsynt.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
