@@ -3,7 +3,7 @@ package uniolunisaar.adam.logic.ui.cl.modules.synthesis.solver.symbolic.bddappro
 import java.io.IOException;
 import org.apache.commons.cli.ParseException;
 import uniol.apt.util.Pair;
-import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;

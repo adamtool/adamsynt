@@ -10,7 +10,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 
 import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfconcurrent.QbfConSolverOptions;
-import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;

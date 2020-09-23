@@ -9,7 +9,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.ParameterMissingException;

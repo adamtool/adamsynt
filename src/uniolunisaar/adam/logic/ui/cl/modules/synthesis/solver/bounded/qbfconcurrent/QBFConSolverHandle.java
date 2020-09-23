@@ -7,7 +7,7 @@ import org.apache.commons.cli.ParseException;
 import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfconcurrent.QbfConSolver;
 import uniolunisaar.adam.logic.synthesis.solver.bounded.qbfconcurrent.QbfConSolverFactory;
 import uniolunisaar.adam.ds.synthesis.solver.bounded.qbfconcurrent.QbfConSolverOptions;
-import uniolunisaar.adam.exceptions.pnwt.CouldNotFindSuitableConditionException;
+import uniolunisaar.adam.exceptions.synthesis.pgwt.CouldNotFindSuitableConditionException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
