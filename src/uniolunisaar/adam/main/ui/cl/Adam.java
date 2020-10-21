@@ -20,7 +20,7 @@ import uniolunisaar.adam.exceptions.synthesis.pgwt.SolverDontFitPetriGameExcepti
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
-import uniolunisaar.adam.exceptions.synthesis.pgwt.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.pnwt.CalculationInterruptedException;
 import uniolunisaar.adam.generators.pgwt.Clerks;
 import uniolunisaar.adam.generators.pgwt.ManufactorySystem;
 import uniolunisaar.adam.generators.pgwt.Philosopher;
