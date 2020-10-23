@@ -1,7 +1,7 @@
 Synthesis of Distributed System with Petri Games with Transits
 ==============================================================
 A framework for the synthesis of distributed systems modeled with Petri games with transits.
-This module is the model and controller part of AdamSYNT.
+This module is the model and controller part of [AdamSYNT](https://github.com/adamtool/adamsynt).
 
 Contains:
 ---------
@@ -20,7 +20,7 @@ Contains:
 Integration:
 ------------
 This modules can be used as separate library and
-- is integrated in: [adam](https://github.com/adamtool/adam), [adamsynt](https://github.com/adamtool/adamsynt),
+- is integrated in: [adam](https://github.com/adamtool/adam)
 - contains the packages: petrigames, bddapproach, mtbddapproach,
 - depends on the repos: [libs](https://github.com/adamtool/libs), [framework](https://github.com/adamtool/framework).
 
