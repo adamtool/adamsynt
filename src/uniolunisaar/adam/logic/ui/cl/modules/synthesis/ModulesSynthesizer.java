@@ -5,6 +5,7 @@ import uniolunisaar.adam.logic.ui.cl.modules.Modules;
 import uniolunisaar.adam.logic.ui.cl.modules.converter.petrinet.Pn2Pdf;
 import uniolunisaar.adam.logic.ui.cl.modules.converter.petrinet.Pn2Unfolding;
 import uniolunisaar.adam.logic.ui.cl.modules.benchmarks.synthesis.Benchmark;
+import uniolunisaar.adam.logic.ui.cl.modules.benchmarks.synthesis.BenchmarkCanonical2021;
 import uniolunisaar.adam.logic.ui.cl.modules.benchmarks.synthesis.BenchmarkHL2019;
 import uniolunisaar.adam.logic.ui.cl.modules.benchmarks.synthesis.BenchmarkSynt2017;
 import uniolunisaar.adam.logic.ui.cl.modules.converter.synthesis.pgwt.Pg2Dot;
@@ -43,6 +44,7 @@ public class ModulesSynthesizer extends Modules {
         new Benchmark(),
         new BenchmarkSynt2017(),
         new BenchmarkHL2019(),
+        new BenchmarkCanonical2021(),
         // Exporter
         new ExporterSynth(),
         // Generators Petri Games

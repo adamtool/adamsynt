@@ -49,9 +49,9 @@ import uniolunisaar.adam.util.PGTools;
  */
 public class BenchmarkCanonical2021 extends AbstractSimpleModule {
 
-    private static final String name = "benchRvG2019";
+    private static final String name = "benchCanon2021";
     private static final String descr = "Just for benchmark purposes. Does not check any preconditions of the Petri game."
-            + " Only prints the sizes of the low-level graph game and the corresponding symbolic graph game.";
+            + " Only prints whether there exists a winning strategy.";
     private static final String PARAMETER_OUTPUT = "o";
     private static final String PARAMETER_APPROACH = "a";
     private static final String PARAMETER_BENCHMARK = "b";
