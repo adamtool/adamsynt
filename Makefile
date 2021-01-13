@@ -2,7 +2,7 @@
 
 # dependencies (folders and repos should be equally ordered)
 DEPENDENCIES_FOLDERS="libs,framework,synthesizer,boundedSynthesis,high-level,server-command-line-protocol,ui"
-DEPENDENCIES_REPOS="git@github.com:adamtool/libs.git,git@github.com:adamtool/framework.git,git@github.com:adamtool/synthesizer.git,git@github.com:adamtool/boundedSynthesis.git,git@github.com:adamtool/high-level.git,git@github.com:adamtool/server-command-line-protocol.git,git@github.com:adamtool/ui.git"
+DEPENDENCIES_REPOS="https://github.com/adamtool/libs.git,https://github.com/adamtool/framework.git,https://github.com/adamtool/synthesizer.git,https://github.com/adamtool/boundedSynthesis.git,https://github.com/adamtool/high-level.git,https://github.com/adamtool/server-command-line-protocol.git,https://github.com/adamtool/ui.git"
 DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD,HEAD,HEAD"
 # the build target
 FRAMEWORK_TARGETS = tools petrinetwithtransits
