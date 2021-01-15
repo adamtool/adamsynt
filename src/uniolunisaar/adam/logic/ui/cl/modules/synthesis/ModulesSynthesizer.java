@@ -1,5 +1,6 @@
 package uniolunisaar.adam.logic.ui.cl.modules.synthesis;
 
+import java.io.PrintWriter;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractModule;
 import uniolunisaar.adam.logic.ui.cl.modules.Modules;
 import uniolunisaar.adam.logic.ui.cl.modules.converter.petrinet.Pn2Pdf;
@@ -62,6 +63,11 @@ public class ModulesSynthesizer extends Modules {
     @Override
     public AbstractModule[] getModules() {
         return modules;
+    }
+
+    @Override
+    public String getToolName() {
+        return "adamSYNT";
     }
 
 }

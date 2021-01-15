@@ -38,7 +38,7 @@ t=javac
 .PHONY: src
 
 # functions
-create_bashscript = \#!/bin/bash\n\nBASEDIR=\"\044(dirname \044\060)\"\n\nif [ ! -f \"\044BASEDIR/Adam$(strip $(1)).jar\" ] ; then\n\techo \"Adam$(strip $(1)).jar not found! Run 'ant jar' first!\" >&2\n\texit 127\nfi\n\njava -DPROPERTY_FILE=./ADAM.properties -Dfile.encoding=UTF-8 -jar \"\044BASEDIR/Adam$(strip $(1)).jar\" \"\044@\"
+create_bashscript = \#!/bin/bash\n\nBASEDIR=\"\044(dirname \044\060)\"\n\nif [ ! -f \"\044BASEDIR/adam$(strip $(1)).jar\" ] ; then\n\techo \"adam$(strip $(1)).jar not found! Run 'ant jar' first!\" >&2\n\texit 127\nfi\n\njava -DPROPERTY_FILE=./ADAM.properties -Dfile.encoding=UTF-8 -jar \"\044BASEDIR/adam$(strip $(1)).jar\" \"\044@\"
 
 define generate_src
 	mkdir -p adam_src
@@ -117,9 +117,9 @@ setCleanAll:
 
 deploy: $(FRAMEWORK_TARGETS) $(SYNTHESIZER_TARGETS) protocol ui setDeploy adamsynt
 	mkdir -p deploy
-	echo "$(call create_bashscript, SYNT)" > ./deploy/AdamSYNT
-	chmod +x ./deploy/AdamSYNT
-	cp ./adam_synt.jar ./deploy/AdamSYNT.jar
+	echo "$(call create_bashscript, SYNT)" > ./deploy/adamSYNT
+	chmod +x ./deploy/adamSYNT
+	cp ./adam_synt.jar ./deploy/adamSYNT.jar
 	cp ./ADAM.properties ./deploy/ADAM.properties
 
 clean: setClean $(FRAMEWORK_TARGETS) $(SYNTHESIZER_TARGETS) $(UI_TARGETS)

@@ -16,4 +16,8 @@ public class AdamSynthesizer {
 //        System.exit(exitCode);
         AdamUI.main(args, new ModulesSynthesizer(), debug);
     }
+    
+    
+    
+    
 }
