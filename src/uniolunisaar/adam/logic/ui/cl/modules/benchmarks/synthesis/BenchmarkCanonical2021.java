@@ -31,6 +31,9 @@ import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.mem
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolvingObject;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitASafetyWithoutType2Solver;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverFactory;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverOptions;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.HLSolverOptions;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLASafetyWithoutType2CanonRepSolverBDDApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLSolverFactoryBDDApproachCanonReps;
@@ -71,8 +74,14 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
 
         OptionBuilder.isRequired();
         OptionBuilder.hasArg();
-        OptionBuilder.withArgName("ll | hl | hlByLL | hlBDD | canonBDD");
-        OptionBuilder.withDescription("Chooses the approach low-level (ll), high-level direct explicit (hl), high-level first converting explicit (hlByLL), high-level implicit (hlBDD), or high-level by canonical representatives (canonBDD) for the creation of the graph game.");
+        OptionBuilder.withArgName("ll | llExpl | hl | hlByLL | hlBDD | canonBDD");
+        OptionBuilder.withDescription("Chooses the approach "
+                + "low-level symbolic (ll), "
+                + "low-level explicit (llExpl), "
+                + "high-level direct explicit (hl), "
+                + "high-level first converting explicit (hlByLL), "
+                + "high-level implicit (hlBDD), or "
+                + "high-level by canonical representatives (canonBDD) for the creation of the graph game.");
         OptionBuilder.withLongOpt("approach");
         options.put(PARAMETER_APPROACH, OptionBuilder.create(PARAMETER_APPROACH));
 
@@ -129,6 +138,17 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             System.out.println("Low-Level approach with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
             String content = "" + exWinStrat;
 
+            Tools.saveFile(output, content);
+        } else if (approach.equals("llExpl")) {
+            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+
+            ExplicitASafetyWithoutType2Solver solverExp = (ExplicitASafetyWithoutType2Solver) ExplicitSolverFactory.getInstance().getSolver(game, new ExplicitSolverOptions());
+
+            boolean exWinStrat = solverExp.existsWinningStrategy();
+
+            System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+            String content = "" + exWinStrat;
             Tools.saveFile(output, content);
         } else if (approach.equals("hl")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
