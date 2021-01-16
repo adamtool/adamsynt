@@ -2,6 +2,7 @@ package uniolunisaar.adam.logic.ui.cl.modules.benchmarks.synthesis;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.cli.CommandLine;
@@ -59,6 +60,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
     private static final String PARAMETER_APPROACH = "a";
     private static final String PARAMETER_BENCHMARK = "b";
     private static final String PARAMETER_BDD_LIB = "lib";
+    private static final String PARAMETER_INTER_TIMING = "time";
 
     @Override
     protected Map<String, Option> createOptions() {
@@ -97,6 +99,12 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         OptionBuilder.withDescription("Chooses the BDD library.");
         OptionBuilder.withLongOpt("library");
         options.put(PARAMETER_BDD_LIB, OptionBuilder.create(PARAMETER_BDD_LIB));
+
+        OptionBuilder.hasArg();
+        OptionBuilder.withArgName("<filename>");
+        OptionBuilder.withDescription("Activate the timing of intermediate steps and storing the results into the given file.");
+        OptionBuilder.withLongOpt("inter_timing");
+        options.put(PARAMETER_INTER_TIMING, OptionBuilder.create(PARAMETER_INTER_TIMING));
         return options;
     }
 
@@ -114,6 +122,10 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         int[] para = new int[elem.length - 1];
         for (int i = 0; i < elem.length - 1; i++) {
             para[i] = Integer.parseInt(elem[i]);
+        }
+        if (line.hasOption(PARAMETER_INTER_TIMING)) {
+            String file = line.getOptionValue(PARAMETER_INTER_TIMING);
+            Logger.getInstance().addMessageStream("INTERMEDIATE_TIMING", new PrintStream(file));
         }
         Logger.getInstance().setVerbose(false);
         Logger.getInstance().setVerboseMessageStream(null);
