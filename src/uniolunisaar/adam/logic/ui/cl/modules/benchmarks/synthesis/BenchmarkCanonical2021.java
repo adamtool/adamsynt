@@ -31,6 +31,7 @@ import uniolunisaar.adam.logic.synthesis.transformers.highlevel.HL2PGConverter;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.membership.BDDASafetyWithoutType2HLSolver;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolvingObject;
+import uniolunisaar.adam.logic.synthesis.builder.twoplayergame.hl.SGGBuilderLLCanon;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitASafetyWithoutType2Solver;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverFactory;
@@ -38,6 +39,8 @@ import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitS
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.HLSolverOptions;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLASafetyWithoutType2CanonRepSolverBDDApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLSolverFactoryBDDApproachCanonReps;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.canonicalreps.HLASafetyWithoutType2SolverCanonApproach;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.canonicalreps.HLSolverFactoryCanonApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.hlapproach.HLASafetyWithoutType2SolverHLApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.hlapproach.HLSolverFactoryHLApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.llapproach.HLASafetyWithoutType2SolverLLApproach;
@@ -76,12 +79,13 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
 
         OptionBuilder.isRequired();
         OptionBuilder.hasArg();
-        OptionBuilder.withArgName("ll | llExpl | hl | hlByLL | hlBDD | canonBDD");
+        OptionBuilder.withArgName("ll | llExpl | hl | hlByLL | hlByLLCanon | hlBDD | canonBDD");
         OptionBuilder.withDescription("Chooses the approach "
                 + "low-level symbolic (ll), "
                 + "low-level explicit (llExpl), "
                 + "high-level direct explicit (hl), "
                 + "high-level first converting explicit (hlByLL), "
+                + "high-level first converting explicit with canon reps (hlByLLCanon), "
                 + "high-level implicit (hlBDD), or "
                 + "high-level by canonical representatives (canonBDD) for the creation of the graph game.");
         OptionBuilder.withLongOpt("approach");
@@ -181,6 +185,42 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverLL.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+            String content = "" + exWinStrat;
+            Tools.saveFile(output, content);
+//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+        } else if (approach.equals("hlByLLCanonA")) {
+            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
+            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+
+            boolean exWinStrat = solverCanon.existsWinningStrategy();
+
+            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+            String content = "" + exWinStrat;
+            Tools.saveFile(output, content);
+//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+        } else if (approach.equals("hlByLLCanonB")) {
+            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+
+            boolean exWinStrat = solverCanon.existsWinningStrategy();
+
+            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+            String content = "" + exWinStrat;
+            Tools.saveFile(output, content);
+//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+        } else if (approach.equals("hlByLLCanonC")) {
+            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
+            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+
+            boolean exWinStrat = solverCanon.existsWinningStrategy();
+
+            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
             String content = "" + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
