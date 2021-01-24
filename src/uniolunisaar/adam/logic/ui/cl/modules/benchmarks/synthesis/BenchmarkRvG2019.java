@@ -11,7 +11,7 @@ import uniol.apt.adt.pn.Place;
 import uniol.apt.adt.pn.Transition;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.GameGraph;
+import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.AbstractGameGraph;
 import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.GameGraphFlow;
 import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.explicit.DecisionSet;
 import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.hl.hlapproach.HLDecisionSet;
@@ -135,7 +135,9 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
 //            SGGByHashCode<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, SGGFlow<ColoredTransition, IntegerID>> graph = SGGBuilderHL.getInstance().createByHashcode(new OneEnvHLPG(hlgame, true));
-            GameGraph<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, GameGraphFlow<ColoredTransition, HLDecisionSet>> graph = SGGBuilderHL.getInstance().create(new OneEnvHLPG(hlgame, true));
+//            GameGraph<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, GameGraphFlow<ColoredTransition, HLDecisionSet>> graph = SGGBuilderHL.getInstance().create(new OneEnvHLPG(hlgame, true));
+//            GameGraphUsingIDs<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, GameGraphFlow<ColoredTransition, HLDecisionSet>> graph = SGGBuilderHL.getInstance().create(new OneEnvHLPG(hlgame, true));
+            AbstractGameGraph<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, HLDecisionSet, GameGraphFlow<ColoredTransition, HLDecisionSet>> graph = SGGBuilderHL.getInstance().create(new OneEnvHLPG(hlgame, true));
 
             int size = graph.getStatesView().size();
             System.out.println("Number of states of the HL two-player game over a finite graph explizit directly by HL: " + size); // todo: fix the logger...
@@ -146,7 +148,9 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
 //            SGGByHashCode<Place, Transition, ILLDecision, LLDecisionSet, SGGFlow<Transition, IntegerID>> graph = SGGBuilderLL.getInstance().createByHashcode(hlgame);
-            GameGraph<Place, Transition, ILLDecision, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = SGGBuilderLL.getInstance().create(hlgame);
+//            GameGraph<Place, Transition, ILLDecision, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = SGGBuilderLL.getInstance().create(hlgame);
+//            GameGraphUsingIDs<Place, Transition, ILLDecision, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = SGGBuilderLL.getInstance().create(hlgame);
+            AbstractGameGraph<Place, Transition, ILLDecision, DecisionSet, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = SGGBuilderLL.getInstance().create(hlgame);
 
             int size = graph.getStatesView().size();
             System.out.println("Number of states of the HL two-player game over a finite graph explizit by converting first to LL: " + size); // todo: fix the logger...
