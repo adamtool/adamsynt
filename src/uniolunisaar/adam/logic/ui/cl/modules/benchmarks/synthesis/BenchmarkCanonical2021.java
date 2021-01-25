@@ -224,38 +224,25 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             String content = "" + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlBDD")) {
+         } else if (approach.equals("hlBDD")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
-            SGGBuilderLLCanon.getInstance().withBidi = true;
-            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+            Symmetries syms = hlgame.getSymmetries();
 
-            boolean exWinStrat = solverCanon.existsWinningStrategy();
+            BDDSolverOptions opt = new BDDSolverOptions(true);
+            if (line.hasOption(PARAMETER_BDD_LIB)) {
+                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+                opt.setLibraryName(lib); // todo: check of correct input
+            }
+            BDDASafetyWithoutType2HLSolver sol = new BDDASafetyWithoutType2HLSolver(new DistrSysBDDSolvingObject<>(game, new Safety()), syms, opt);
+            sol.initialize();
 
-            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+            boolean exWinStrat = sol.existsWinningStrategy();
+
+            System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
             String content = "" + exWinStrat;
             Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-//        } else if (approach.equals("hlBDD")) {
-//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-//
-//            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
-//            Symmetries syms = hlgame.getSymmetries();
-//
-//            BDDSolverOptions opt = new BDDSolverOptions(true);
-//            if (line.hasOption(PARAMETER_BDD_LIB)) {
-//                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
-//                opt.setLibraryName(lib); // todo: check of correct input
-//            }
-//            BDDASafetyWithoutType2HLSolver sol = new BDDASafetyWithoutType2HLSolver(new DistrSysBDDSolvingObject<>(game, new Safety()), syms, opt);
-//            sol.initialize();
-//
-//            boolean exWinStrat = sol.existsWinningStrategy();
-//
-//            System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-//            String content = "" + exWinStrat;
-//            Tools.saveFile(output, content);
         } else if (approach.equals("canonBDD")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
