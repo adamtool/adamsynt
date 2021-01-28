@@ -14,6 +14,7 @@ import uniolunisaar.adam.ds.synthesis.highlevel.HLPetriGame;
 import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetries;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.ds.objectives.local.Safety;
+import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetry;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
@@ -233,18 +234,23 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
             Symmetries syms = hlgame.getSymmetries();
 
-            BDDSolverOptions opt = new BDDSolverOptions(true);
-            if (line.hasOption(PARAMETER_BDD_LIB)) {
-                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
-                opt.setLibraryName(lib); // todo: check of correct input
+            int count = 0;
+            for (Symmetry sym : syms) {
+                ++count;
             }
-            BDDASafetyWithoutType2HLSolver sol = new BDDASafetyWithoutType2HLSolver(new DistrSysBDDSolvingObject<>(game, new Safety()), syms, opt);
-            sol.initialize();
-
-            boolean exWinStrat = sol.existsWinningStrategy();
-
-            System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "&&" + exWinStrat; // didn't calculate the number of states and flow because it costs more
+//            BDDSolverOptions opt = new BDDSolverOptions(true);
+//            if (line.hasOption(PARAMETER_BDD_LIB)) {
+//                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+//                opt.setLibraryName(lib); // todo: check of correct input
+//            }
+//            BDDASafetyWithoutType2HLSolver sol = new BDDASafetyWithoutType2HLSolver(new DistrSysBDDSolvingObject<>(game, new Safety()), syms, opt);
+//            sol.initialize();
+//
+//            boolean exWinStrat = sol.existsWinningStrategy();
+//
+//            System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = "&&" + exWinStrat; // didn't calculate the number of states and flow because it costs more
+            String content = "&&" + count; // didn't calculate the number of states and flow because it costs more
             Tools.saveFile(output, content);
         } else if (approach.equals("canonBDD")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
