@@ -191,7 +191,8 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         } else if (approach.equals("hlByLLCanonA")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.TREE_DCS;
             HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
 
             boolean exWinStrat = solverCanon.existsWinningStrategy();
@@ -204,6 +205,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
             SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
             HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
 
             boolean exWinStrat = solverCanon.existsWinningStrategy();
@@ -215,7 +217,8 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         } else if (approach.equals("hlByLLCanonC")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
             HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
 
             boolean exWinStrat = solverCanon.existsWinningStrategy();
