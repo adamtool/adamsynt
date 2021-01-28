@@ -152,7 +152,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = sol.existsWinningStrategy();
 
             System.out.println("Low-Level approach with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = "&&" + exWinStrat; // didn't calculate the number of states and edges because it costs more
 
             Tools.saveFile(output, content);
         } else if (approach.equals("llExpl")) {
@@ -164,7 +164,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverExp.existsWinningStrategy();
 
             System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = solverExp.getGraph().getStatesView().size() + " & " + solverExp.getGraph().getFlowsView().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
         } else if (approach.equals("hl")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
@@ -174,7 +174,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverHL.existsWinningStrategy();
 
             System.out.println("High-level approach explicit directly as HL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = solverHL.getGraph().getStatesView().size() + " & " + solverHL.getGraph().getFlowsView().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLL")) {
@@ -185,7 +185,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverLL.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = solverLL.getGraph().getStatesView().size() + " & " + solverLL.getGraph().getFlowsView().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLLCanonA")) {
@@ -198,7 +198,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverCanon.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = solverCanon.getGraph().getStatesView().size() + " & " + solverCanon.getGraph().getFlowsView().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLLCanonB")) {
@@ -211,7 +211,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverCanon.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = solverCanon.getGraph().getStatesView().size() + " & " + solverCanon.getGraph().getFlowsView().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLLCanonC")) {
@@ -224,10 +224,10 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverCanon.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = solverCanon.getGraph().getStatesView().size() + " & " + solverCanon.getGraph().getFlowsView().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-         } else if (approach.equals("hlBDD")) {
+        } else if (approach.equals("hlBDD")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
             PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
@@ -244,7 +244,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = sol.existsWinningStrategy();
 
             System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = "&&" + exWinStrat; // didn't calculate the number of states and flow because it costs more
             Tools.saveFile(output, content);
         } else if (approach.equals("canonBDD")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
@@ -261,7 +261,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solver.existsWinningStrategy();
 
             System.out.println("Canonical representatives with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "" + exWinStrat;
+            String content = "&&" + exWinStrat;// didn't calculate the number of states and flow because it costs more
             Tools.saveFile(output, content);
         } else {
             throw new ModuleException("Approach " + approach + " not yet implemented.");
