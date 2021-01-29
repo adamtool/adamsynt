@@ -21,6 +21,7 @@ import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.generators.highlevel.AlarmSystemHL;
+import uniolunisaar.adam.generators.highlevel.ClientServerHL;
 import uniolunisaar.adam.generators.highlevel.ConcurrentMachinesHL;
 import uniolunisaar.adam.generators.highlevel.DocumentWorkflowHL;
 import uniolunisaar.adam.generators.highlevel.PackageDeliveryHL;
@@ -301,6 +302,8 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 return DocumentWorkflowHL.generateDWs(paras[0], true);
             case "PD":
                 return PackageDeliveryHL.generateEwithPool(paras[0], paras[1], true);
+            case "CS":
+                return ClientServerHL.create(paras[0], true);
             default:
                 throw new ModuleException("Benchmark " + id + " not yet implemented.");
         }
