@@ -163,7 +163,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverExp.existsWinningStrategy();
 
             System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverExp.getGraph().getStatesView().size() + " & " + solverExp.getGraph().getFlowsView().size() + " & " + exWinStrat;
+            String content = solverExp.getGraph().getStates().size() + " & " + solverExp.getGraph().getFlows().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
         } else if (approach.equals("hl")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
@@ -173,7 +173,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverHL.existsWinningStrategy();
 
             System.out.println("High-level approach explicit directly as HL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverHL.getGraph().getStatesView().size() + " & " + solverHL.getGraph().getFlowsView().size() + " & " + exWinStrat;
+            String content = solverHL.getGraph().getStates().size() + " & " + solverHL.getGraph().getFlows().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLL")) {
@@ -184,25 +184,44 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverLL.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverLL.getGraph().getStatesView().size() + " & " + solverLL.getGraph().getFlowsView().size() + " & " + exWinStrat;
+            String content = solverLL.getGraph().getStates().size() + " & " + solverLL.getGraph().getFlows().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLLCanonA")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
-            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
+//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
             HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
 
             boolean exWinStrat = solverCanon.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverCanon.getGraph().getStatesView().size() + " & " + solverCanon.getGraph().getFlowsView().size() + " & " + exWinStrat;
+            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlByLLCanonB")) {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
+//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+
+            boolean exWinStrat = solverCanon.existsWinningStrategy();
+
+            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
+            Tools.saveFile(output, content);
+//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+        } else if (approach.equals("hlByLLCanonC")) {
+            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+
+//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
+//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
             SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
             SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
             HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
@@ -210,20 +229,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             boolean exWinStrat = solverCanon.existsWinningStrategy();
 
             System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverCanon.getGraph().getStatesView().size() + " & " + solverCanon.getGraph().getFlowsView().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlByLLCanonC")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
-            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
-            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
-
-            boolean exWinStrat = solverCanon.existsWinningStrategy();
-
-            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverCanon.getGraph().getStatesView().size() + " & " + solverCanon.getGraph().getFlowsView().size() + " & " + exWinStrat;
+            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
             Tools.saveFile(output, content);
 //                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
         } else if (approach.equals("hlBDD")) {

@@ -139,7 +139,7 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
 //            GameGraphUsingIDs<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, GameGraphFlow<ColoredTransition, HLDecisionSet>> graph = SGGBuilderHL.getInstance().create(new OneEnvHLPG(hlgame, true));
             AbstractGameGraph<ColoredPlace, ColoredTransition, IHLDecision, HLDecisionSet, HLDecisionSet, GameGraphFlow<ColoredTransition, HLDecisionSet>> graph = SGGBuilderHL.getInstance().create(new OneEnvHLPG(hlgame, true));
 
-            int size = graph.getStatesView().size();
+            int size = graph.getStates().size();
             System.out.println("Number of states of the HL two-player game over a finite graph explizit directly by HL: " + size); // todo: fix the logger...
             String content = "" + size;
             Tools.saveFile(output, content);
@@ -152,7 +152,7 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
 //            GameGraphUsingIDs<Place, Transition, ILLDecision, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = SGGBuilderLL.getInstance().create(hlgame);
             AbstractGameGraph<Place, Transition, ILLDecision, DecisionSet, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = SGGBuilderLL.getInstance().create(hlgame);
 
-            int size = graph.getStatesView().size();
+            int size = graph.getStates().size();
             System.out.println("Number of states of the HL two-player game over a finite graph explizit by converting first to LL: " + size); // todo: fix the logger...
             String content = "" + size;
             Tools.saveFile(output, content);
