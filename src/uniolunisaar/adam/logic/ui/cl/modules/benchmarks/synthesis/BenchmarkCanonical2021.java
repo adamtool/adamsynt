@@ -160,7 +160,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 break;
             }
             default: {
-                String[] approaches = approach.split("|");
+                String[] approaches = approach.split("_");
                 // calculate symmetries
                 switch (approaches[0]) {
                     case "symCalc":
