@@ -11,14 +11,11 @@ import org.apache.commons.cli.OptionBuilder;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.synthesis.highlevel.HLPetriGame;
-import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetries;
-import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetry;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
-import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.generators.highlevel.AlarmSystemHL;
 import uniolunisaar.adam.generators.highlevel.ClientServerHL;
@@ -29,25 +26,15 @@ import uniolunisaar.adam.generators.pgwt.Clerks;
 import uniolunisaar.adam.generators.pgwt.SecuritySystem;
 import uniolunisaar.adam.generators.pgwt.Workflow;
 import uniolunisaar.adam.logic.synthesis.transformers.highlevel.HL2PGConverter;
-import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.logic.synthesis.builder.twoplayergame.hl.SGGBuilderLLCanon;
-import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitASafetyWithoutType2Solver;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverFactory;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverOptions;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.HLSolverOptions;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLASafetyWithoutType2CanonRepSolverBDDApproach;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLSolverFactoryBDDApproachCanonReps;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.canonicalreps.HLASafetyWithoutType2SolverCanonApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.canonicalreps.HLSolverFactoryCanonApproach;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.hlapproach.HLASafetyWithoutType2SolverHLApproach;
-import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.hlapproach.HLSolverFactoryHLApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.llapproach.HLASafetyWithoutType2SolverLLApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.llapproach.HLSolverFactoryLLApproach;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
-import uniolunisaar.adam.util.PGTools;
 
 /**
  *
@@ -111,6 +98,22 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         return options;
     }
 
+    /**
+     * This is the approach the compare 12 settings of the canonical approach
+     * with the membership approach.
+     *
+     * @param line
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws FileNotFoundException
+     * @throws ModuleException
+     * @throws NetNotSafeException
+     * @throws NoSuitableDistributionFoundException
+     * @throws NoStrategyExistentException
+     * @throws ParseException
+     * @throws CommandLineParseException
+     * @throws Exception
+     */
     @Override
     public void execute(CommandLine line) throws IOException, InterruptedException, FileNotFoundException, ModuleException, NetNotSafeException, NoSuitableDistributionFoundException, NoStrategyExistentException, ParseException, CommandLineParseException, Exception {
         super.execute(line);
@@ -133,151 +136,241 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         Logger.getInstance().setVerbose(false);
         Logger.getInstance().setVerboseMessageStream(null);
 
-        if (approach.equals("ll")) {
-            // This is different to RvG2019 since I think it's a fairer comparison
-            // to let the algorithm also calculate the low-level game.
-//            PetriGameWithTransits game = getLLGame(elem[elem.length - 1], para);
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
-            BDDSolverOptions opt = new BDDSolverOptions(true);
-            if (line.hasOption(PARAMETER_BDD_LIB)) {
-                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
-                opt.setLibraryName(lib); // todo: check of correct input
+        // change the approach here!
+        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+        HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+        switch (approach) {
+            case "membership": {
+                HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+                boolean exWinStrat = solverLL.existsWinningStrategy();
+                System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+                String content = solverLL.getGraph().getStates().size() + " & " + solverLL.getGraph().getFlows().size() + " & " + exWinStrat;
+                Tools.saveFile(output, content);
+                break;
             }
-            opt.setNoType2(true);
-            DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(PGTools.getPetriGameFromParsedPetriNet(game, true, false), opt);
-            sol.initialize();
-
-            boolean exWinStrat = sol.existsWinningStrategy();
-
-            System.out.println("Low-Level approach with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "&&" + exWinStrat; // didn't calculate the number of states and edges because it costs more
-
-            Tools.saveFile(output, content);
-        } else if (approach.equals("llExpl")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
-
-            ExplicitASafetyWithoutType2Solver solverExp = (ExplicitASafetyWithoutType2Solver) ExplicitSolverFactory.getInstance().getSolver(game, new ExplicitSolverOptions());
-
-            boolean exWinStrat = solverExp.existsWinningStrategy();
-
-            System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverExp.getGraph().getStates().size() + " & " + solverExp.getGraph().getFlows().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-        } else if (approach.equals("hl")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-            HLASafetyWithoutType2SolverHLApproach solverHL = (HLASafetyWithoutType2SolverHLApproach) HLSolverFactoryHLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
-
-            boolean exWinStrat = solverHL.existsWinningStrategy();
-
-            System.out.println("High-level approach explicit directly as HL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverHL.getGraph().getStates().size() + " & " + solverHL.getGraph().getFlows().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlByLL")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-            HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
-
-            boolean exWinStrat = solverLL.existsWinningStrategy();
-
-            System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverLL.getGraph().getStates().size() + " & " + solverLL.getGraph().getFlows().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlByLLCanonA")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
-//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
-            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
-            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
-
-            boolean exWinStrat = solverCanon.existsWinningStrategy();
-
-            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlByLLCanonB")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
-//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
-            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
-            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
-
-            boolean exWinStrat = solverCanon.existsWinningStrategy();
-
-            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlByLLCanonC")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
-//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
-            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
-            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
-            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
-
-            boolean exWinStrat = solverCanon.existsWinningStrategy();
-
-            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
-            Tools.saveFile(output, content);
-//                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
-        } else if (approach.equals("hlBDD")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
-            Iterable<Symmetry> syms = hlgame.getSymmetries();
-
-            int count = 0;
-            for (Symmetry sym : syms) {
-                ++count;
+            case "symmetries": {
+                PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+                Iterable<Symmetry> syms = hlgame.getSymmetries();
+                int count = 0;
+                for (Symmetry sym : syms) {
+                    ++count;
+                }
+                String content = "&&" + count; // not states and flows
+                Tools.saveFile(output, content);
+                break;
             }
+            default: {
+                String[] approaches = approach.split("|");
+                // calculate symmetries
+                switch (approaches[0]) {
+                    case "symCalc":
+                        hlgame.storeSymmetries = false;
+                        break;
+                    case "symStore":
+                        hlgame.storeSymmetries = true;
+                        break;
+                    default:
+                        throw new RuntimeException("The approach " + approaches[0] + " is not supported.");
+                }       // skip some symmetries
+                switch (approaches[1]) {
+                    case "symSkip":
+                        SGGBuilderLLCanon.getInstance().skipSomeSymmetries = true;
+                        break;
+                    case "symAll":
+                        SGGBuilderLLCanon.getInstance().skipSomeSymmetries = false;
+                        break;
+                    default:
+                        throw new RuntimeException("The approach " + approaches[1] + " is not supported.");
+                }       // save symmetric states mapping
+                switch (approaches[2]) {
+                    case "saveNONE":
+                        SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
+                        break;
+                    case "saveSOME":
+                        SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+                        break;
+                    case "saveALL":
+                        SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
+                        break;
+                    default:
+                        throw new RuntimeException("The approach " + approaches[2] + " is not supported.");
+                }
+                HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+                boolean exWinStrat = solverCanon.existsWinningStrategy();
+                System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+                String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
+                Tools.saveFile(output, content);
+                break;
+            }
+        }
+    }
+
+//    @Override
+//    public void execute(CommandLine line) throws IOException, InterruptedException, FileNotFoundException, ModuleException, NetNotSafeException, NoSuitableDistributionFoundException, NoStrategyExistentException, ParseException, CommandLineParseException, Exception {
+//        super.execute(line);
+//
+//        String output = line.getOptionValue(PARAMETER_OUTPUT);
+//        String approach = line.getOptionValue(PARAMETER_APPROACH);
+//        String idInput = line.getOptionValue(PARAMETER_BENCHMARK);
+//
+//        // Get the Parameter and bench mark ID
+//        String id = idInput.substring(idInput.lastIndexOf("/") + 1);
+//        String[] elem = id.split("_");
+//        int[] para = new int[elem.length - 1];
+//        for (int i = 0; i < elem.length - 1; i++) {
+//            para[i] = Integer.parseInt(elem[i]);
+//        }
+//        if (line.hasOption(PARAMETER_INTER_TIMING)) {
+//            String file = line.getOptionValue(PARAMETER_INTER_TIMING);
+//            Logger.getInstance().addMessageStream("INTERMEDIATE_TIMING", new PrintStream(file));
+//        }
+//        Logger.getInstance().setVerbose(false);
+//        Logger.getInstance().setVerboseMessageStream(null);
+//
+//        if (approach.equals("ll")) {
+//            // This is different to RvG2019 since I think it's a fairer comparison
+//            // to let the algorithm also calculate the low-level game.
+////            PetriGameWithTransits game = getLLGame(elem[elem.length - 1], para);
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
 //            BDDSolverOptions opt = new BDDSolverOptions(true);
 //            if (line.hasOption(PARAMETER_BDD_LIB)) {
 //                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
 //                opt.setLibraryName(lib); // todo: check of correct input
 //            }
-//            BDDASafetyWithoutType2HLSolver sol = new BDDASafetyWithoutType2HLSolver(new DistrSysBDDSolvingObject<>(game, new Safety()), syms, opt);
+//            opt.setNoType2(true);
+//            DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(PGTools.getPetriGameFromParsedPetriNet(game, true, false), opt);
 //            sol.initialize();
 //
 //            boolean exWinStrat = sol.existsWinningStrategy();
 //
-//            System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-//            String content = "&&" + exWinStrat; // didn't calculate the number of states and flow because it costs more
-            String content = "&&" + count; // didn't calculate the number of states and flow because it costs more
-            Tools.saveFile(output, content);
-        } else if (approach.equals("canonBDD")) {
-            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
-
-            BDDSolverOptions opt = new BDDSolverOptions(true);
-            if (line.hasOption(PARAMETER_BDD_LIB)) {
-                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
-                opt.setLibraryName(lib); // todo: check of correct input
-            }
-            opt.setNoType2(true);
-
-            HLASafetyWithoutType2CanonRepSolverBDDApproach solver = (HLASafetyWithoutType2CanonRepSolverBDDApproach) HLSolverFactoryBDDApproachCanonReps.getInstance().getSolver(hlgame, opt);
-            solver.getSolver().initialize();
-            boolean exWinStrat = solver.existsWinningStrategy();
-
-            System.out.println("Canonical representatives with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
-            String content = "&&" + exWinStrat;// didn't calculate the number of states and flow because it costs more
-            Tools.saveFile(output, content);
-        } else {
-            throw new ModuleException("Approach " + approach + " not yet implemented.");
-        }
-    }
-
+//            System.out.println("Low-Level approach with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = "&&" + exWinStrat; // didn't calculate the number of states and edges because it costs more
+//
+//            Tools.saveFile(output, content);
+//        } else if (approach.equals("llExpl")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+//
+//            ExplicitASafetyWithoutType2Solver solverExp = (ExplicitASafetyWithoutType2Solver) ExplicitSolverFactory.getInstance().getSolver(game, new ExplicitSolverOptions());
+//
+//            boolean exWinStrat = solverExp.existsWinningStrategy();
+//
+//            System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = solverExp.getGraph().getStates().size() + " & " + solverExp.getGraph().getFlows().size() + " & " + exWinStrat;
+//            Tools.saveFile(output, content);
+//        } else if (approach.equals("hl")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+//            HLASafetyWithoutType2SolverHLApproach solverHL = (HLASafetyWithoutType2SolverHLApproach) HLSolverFactoryHLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+//
+//            boolean exWinStrat = solverHL.existsWinningStrategy();
+//
+//            System.out.println("High-level approach explicit directly as HL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = solverHL.getGraph().getStates().size() + " & " + solverHL.getGraph().getFlows().size() + " & " + exWinStrat;
+//            Tools.saveFile(output, content);
+////                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+//        } else if (approach.equals("hlByLL")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+//            HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+//
+//            boolean exWinStrat = solverLL.existsWinningStrategy();
+//
+//            System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = solverLL.getGraph().getStates().size() + " & " + solverLL.getGraph().getFlows().size() + " & " + exWinStrat;
+//            Tools.saveFile(output, content);
+////                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+//        } else if (approach.equals("hlByLLCanonA")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+////            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
+////            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
+//            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+//
+//            boolean exWinStrat = solverCanon.existsWinningStrategy();
+//
+//            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
+//            Tools.saveFile(output, content);
+////                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+//        } else if (approach.equals("hlByLLCanonB")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+////            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+////            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+//            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+//
+//            boolean exWinStrat = solverCanon.existsWinningStrategy();
+//
+//            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
+//            Tools.saveFile(output, content);
+////                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+//        } else if (approach.equals("hlByLLCanonC")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+////            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
+////            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+//            SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+//            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+//            HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+//
+//            boolean exWinStrat = solverCanon.existsWinningStrategy();
+//
+//            System.out.println("High-level approach explicit by first reducing to LL game using canonical representatives. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = solverCanon.getGraph().getStates().size() + " & " + solverCanon.getGraph().getFlows().size() + " & " + exWinStrat;
+//            Tools.saveFile(output, content);
+////                    HLTools.saveGraph2DotAndPDF(output + "CM21_gg", graph);
+//        } else if (approach.equals("hlBDD")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+//            PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+//            Iterable<Symmetry> syms = hlgame.getSymmetries();
+//
+//            int count = 0;
+//            for (Symmetry sym : syms) {
+//                ++count;
+//            }
+////            BDDSolverOptions opt = new BDDSolverOptions(true);
+////            if (line.hasOption(PARAMETER_BDD_LIB)) {
+////                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+////                opt.setLibraryName(lib); // todo: check of correct input
+////            }
+////            BDDASafetyWithoutType2HLSolver sol = new BDDASafetyWithoutType2HLSolver(new DistrSysBDDSolvingObject<>(game, new Safety()), syms, opt);
+////            sol.initialize();
+////
+////            boolean exWinStrat = sol.existsWinningStrategy();
+////
+////            System.out.println("High-level approach with solving BDD inbetween. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+////            String content = "&&" + exWinStrat; // didn't calculate the number of states and flow because it costs more
+//            String content = "&&" + count; // didn't calculate the number of states and flow because it costs more
+//            Tools.saveFile(output, content);
+//        } else if (approach.equals("canonBDD")) {
+//            HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
+//
+//            BDDSolverOptions opt = new BDDSolverOptions(true);
+//            if (line.hasOption(PARAMETER_BDD_LIB)) {
+//                String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+//                opt.setLibraryName(lib); // todo: check of correct input
+//            }
+//            opt.setNoType2(true);
+//
+//            HLASafetyWithoutType2CanonRepSolverBDDApproach solver = (HLASafetyWithoutType2CanonRepSolverBDDApproach) HLSolverFactoryBDDApproachCanonReps.getInstance().getSolver(hlgame, opt);
+//            solver.getSolver().initialize();
+//            boolean exWinStrat = solver.existsWinningStrategy();
+//
+//            System.out.println("Canonical representatives with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+//            String content = "&&" + exWinStrat;// didn't calculate the number of states and flow because it costs more
+//            Tools.saveFile(output, content);
+//        } else {
+//            throw new ModuleException("Approach " + approach + " not yet implemented.");
+//        }
+//    }
     private PetriGameWithTransits getLLGame(String id, int[] paras) throws ModuleException {
         switch (id) {
             case "AS":
