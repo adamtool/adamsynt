@@ -164,10 +164,12 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 // calculate symmetries
                 switch (approaches[0]) {
                     case "symCalc":
+                        System.out.println("storeSymmetries=false");
                         hlgame.storeSymmetries = false;
                         break;
                     case "symStore":
                         hlgame.storeSymmetries = true;
+                        System.out.println("storeSymmetries=true");
                         break;
                     default:
                         throw new RuntimeException("The approach " + approaches[0] + " is not supported.");
@@ -175,9 +177,11 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 switch (approaches[1]) {
                     case "symSkip":
                         SGGBuilderLLCanon.getInstance().skipSomeSymmetries = true;
+                        System.out.println("skipSomeSymmetries=true");
                         break;
                     case "symAll":
                         SGGBuilderLLCanon.getInstance().skipSomeSymmetries = false;
+                        System.out.println("skipSomeSymmetries=false");
                         break;
                     default:
                         throw new RuntimeException("The approach " + approaches[1] + " is not supported.");
@@ -185,12 +189,15 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 switch (approaches[2]) {
                     case "saveNONE":
                         SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.NONE;
+                        System.out.println("saveMapping=NONE");
                         break;
                     case "saveSOME":
                         SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+                        System.out.println("saveMapping=SOME");
                         break;
                     case "saveALL":
                         SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.ALL;
+                        System.out.println("saveMapping=ALL");
                         break;
                     default:
                         throw new RuntimeException("The approach " + approaches[2] + " is not supported.");
