@@ -137,7 +137,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         Logger.getInstance().setVerboseMessageStream(null);
 
         // change the approach here!
-        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
         HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
         switch (approach) {
             case "membership": {
