@@ -21,9 +21,9 @@ import uniolunisaar.adam.ds.synthesis.highlevel.ColoredPlace;
 import uniolunisaar.adam.ds.synthesis.highlevel.ColoredTransition;
 import uniolunisaar.adam.ds.synthesis.highlevel.HLPetriGame;
 import uniolunisaar.adam.ds.synthesis.highlevel.oneenv.OneEnvHLPG;
-import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetries;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.ds.objectives.local.Safety;
+import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetry;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
@@ -161,7 +161,7 @@ public class BenchmarkRvG2019 extends AbstractSimpleModule {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
             PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
-            Symmetries syms = hlgame.getSymmetries();
+            Iterable<Symmetry> syms = hlgame.getSymmetries();
 
             BDDSolverOptions opt = new BDDSolverOptions(true);
             if (line.hasOption(PARAMETER_BDD_LIB)) {

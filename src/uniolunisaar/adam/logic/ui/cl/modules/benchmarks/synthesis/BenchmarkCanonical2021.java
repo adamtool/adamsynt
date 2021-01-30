@@ -236,7 +236,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
             HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
 
             PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
-            Symmetries syms = hlgame.getSymmetries();
+            Iterable<Symmetry> syms = hlgame.getSymmetries();
 
             int count = 0;
             for (Symmetry sym : syms) {
