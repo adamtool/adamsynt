@@ -151,8 +151,6 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         Logger.getInstance().setVerbose(false);
         Logger.getInstance().setVerboseMessageStream(null);
 
-        // change the approach here!
-        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
         HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
         switch (approach) {
             case "stateSpaceMembership": {
@@ -275,6 +273,24 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                         break;
                     default:
                         throw new RuntimeException("The approach " + approaches[2] + " is not supported.");
+                }
+                if (approaches.length > 3) {
+                    switch (approaches[3]) {
+                        case "LIST":
+                            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+                            System.out.println("approach=list");
+                            break;
+                        case "TREE":
+                            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_TREE;
+                            System.out.println("approach=tree");
+                            break;
+                        case "DCS":
+                            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
+                            System.out.println("approach=dcs");
+                            break;
+                        default:
+                            throw new RuntimeException("The approach " + approaches[3] + " is not supported.");
+                    }
                 }
                 HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
                 boolean exWinStrat = solverCanon.existsWinningStrategy();
