@@ -146,7 +146,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         Logger.getInstance().setVerboseMessageStream(null);
 
         // change the approach here!
-        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
         HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
         switch (approach) {
             case "LLBDDs": {
@@ -187,6 +187,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 break;
             }
             case "membership": {
+                hlgame.storeSymmetries = false;
                 HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
                 boolean exWinStrat = solverLL.existsWinningStrategy();
                 System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
