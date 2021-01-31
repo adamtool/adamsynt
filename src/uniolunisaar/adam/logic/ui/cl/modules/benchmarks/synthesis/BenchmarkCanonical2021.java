@@ -9,8 +9,14 @@ import net.sf.javabdd.BDD;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
+import uniol.apt.adt.pn.Place;
+import uniol.apt.adt.pn.Transition;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
+import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.AbstractGameGraph;
+import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.GameGraphFlow;
+import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.explicit.DecisionSet;
+import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.explicit.ILLDecision;
 import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.ds.synthesis.highlevel.HLPetriGame;
 import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetry;
@@ -146,9 +152,30 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         Logger.getInstance().setVerboseMessageStream(null);
 
         // change the approach here!
-        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
+        SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
         HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
         switch (approach) {
+            case "stateSpaceMembership": {
+                hlgame.storeSymmetries = true;
+
+                HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+                AbstractGameGraph<Place, Transition, ILLDecision, DecisionSet, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = solverLL.getGraph();
+                String content = graph.getStates().size() + " & " + graph.getFlows().size() + " & ";
+                Tools.saveFile(output, content);
+                break;
+            }
+            case "stateSpaceCanonical": {
+                SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
+                SGGBuilderLLCanon.getInstance().saveMapping = SGGBuilderLLCanon.SaveMapping.SOME;
+                hlgame.storeSymmetries = true;
+                SGGBuilderLLCanon.getInstance().skipSomeSymmetries = true;
+
+                HLASafetyWithoutType2SolverCanonApproach solverCanon = (HLASafetyWithoutType2SolverCanonApproach) HLSolverFactoryCanonApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
+                AbstractGameGraph<Place, Transition, ILLDecision, DecisionSet, DecisionSet, GameGraphFlow<Transition, DecisionSet>> graph = solverCanon.getGraph();
+                String content = graph.getStates().size() + " & " + graph.getFlows().size() + " & ";
+                Tools.saveFile(output, content);
+                break;
+            }
             case "LLBDDs": {
                 PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
                 BDDSolverOptions opt = new BDDSolverOptions(true);
