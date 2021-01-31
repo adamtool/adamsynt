@@ -5,17 +5,20 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
+import net.sf.javabdd.BDD;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
+import uniolunisaar.adam.ds.objectives.Condition;
 import uniolunisaar.adam.ds.synthesis.highlevel.HLPetriGame;
 import uniolunisaar.adam.ds.synthesis.highlevel.symmetries.Symmetry;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoStrategyExistentException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
+import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.generators.highlevel.AlarmSystemHL;
 import uniolunisaar.adam.generators.highlevel.ClientServerHL;
@@ -27,7 +30,12 @@ import uniolunisaar.adam.generators.pgwt.SecuritySystem;
 import uniolunisaar.adam.generators.pgwt.Workflow;
 import uniolunisaar.adam.logic.synthesis.transformers.highlevel.HL2PGConverter;
 import uniolunisaar.adam.logic.synthesis.builder.twoplayergame.hl.SGGBuilderLLCanon;
+import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
+import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.HLSolverOptions;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.BDDASafetyWithoutType2CanonRepHLSolver;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLASafetyWithoutType2CanonRepSolverBDDApproach;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLSolverFactoryBDDApproachCanonReps;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.canonicalreps.HLASafetyWithoutType2SolverCanonApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.canonicalreps.HLSolverFactoryCanonApproach;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.llapproach.HLASafetyWithoutType2SolverLLApproach;
@@ -35,6 +43,7 @@ import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.llapproach.HLSo
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
+import uniolunisaar.adam.util.PGTools;
 
 /**
  *
@@ -140,6 +149,43 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
         SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_BY_LIST;
         HLPetriGame hlgame = getHLGame(elem[elem.length - 1], para);
         switch (approach) {
+            case "LLBDDs": {
+                PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+                BDDSolverOptions opt = new BDDSolverOptions(true);
+                if (line.hasOption(PARAMETER_BDD_LIB)) {
+                    String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+                    opt.setLibraryName(lib); // todo: check of correct input
+                }
+                opt.setNoType2(true);
+
+                DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(PGTools.getPetriGameFromParsedPetriNet(game, true, false), opt);
+                sol.initialize();
+
+                boolean exWinStrat = sol.existsWinningStrategy();
+
+                System.out.println("Low-Level approach with BDDs. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+                String content = "&&" + exWinStrat; // didn't calculate the number of states and edges because it costs more
+
+                Tools.saveFile(output, content);
+                break;
+            }
+            case "symBDD": {
+                BDDSolverOptions opt = new BDDSolverOptions(true);
+                if (line.hasOption(PARAMETER_BDD_LIB)) {
+                    String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+                    opt.setLibraryName(lib); // todo: check of correct input
+                }
+
+                HLASafetyWithoutType2CanonRepSolverBDDApproach hlSol = (HLASafetyWithoutType2CanonRepSolverBDDApproach) HLSolverFactoryBDDApproachCanonReps.getInstance().getSolver(hlgame, opt);
+                hlSol.getSolver().initialize();
+                BDDASafetyWithoutType2CanonRepHLSolver solver = hlSol.getSolver();
+//            BDD reps = solver.canonicalRepresentatives();
+                BDD reps = solver.getSymmetries();
+
+                String content = "&&-";
+                Tools.saveFile(output, content);
+                break;
+            }
             case "membership": {
                 HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
                 boolean exWinStrat = solverLL.existsWinningStrategy();
