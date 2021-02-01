@@ -38,6 +38,9 @@ import uniolunisaar.adam.logic.synthesis.transformers.highlevel.HL2PGConverter;
 import uniolunisaar.adam.logic.synthesis.builder.twoplayergame.hl.SGGBuilderLLCanon;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolver;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.distrsys.DistrSysBDDSolverFactory;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitASafetyWithoutType2Solver;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverFactory;
+import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.explicit.ExplicitSolverOptions;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.HLSolverOptions;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.BDDASafetyWithoutType2CanonRepHLSolver;
 import uniolunisaar.adam.logic.synthesis.solver.twoplayergame.hl.bddapproach.canonicalreps.HLASafetyWithoutType2CanonRepSolverBDDApproach;
@@ -211,8 +214,19 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 Tools.saveFile(output, content);
                 break;
             }
+            case "explizit": {
+                PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+
+                ExplicitASafetyWithoutType2Solver solverExp = (ExplicitASafetyWithoutType2Solver) ExplicitSolverFactory.getInstance().getSolver(game, new ExplicitSolverOptions());
+
+                boolean exWinStrat = solverExp.existsWinningStrategy();
+
+                System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
+                String content = solverExp.getGraph().getStates().size() + " & " + solverExp.getGraph().getFlows().size() + " & " + exWinStrat;
+                Tools.saveFile(output, content);
+            }
             case "membership": {
-                hlgame.storeSymmetries = false;
+                hlgame.storeSymmetries = true;
                 HLASafetyWithoutType2SolverLLApproach solverLL = (HLASafetyWithoutType2SolverLLApproach) HLSolverFactoryLLApproach.getInstance().getSolver(hlgame, new HLSolverOptions(true));
                 boolean exWinStrat = solverLL.existsWinningStrategy();
                 System.out.println("High-level approach explicit by first reducing to LL game. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
@@ -221,7 +235,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 break;
             }
             case "symmetries": {
-                PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+//                PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
                 Iterable<Symmetry> syms = hlgame.getSymmetries();
                 int count = 0;
                 for (Symmetry sym : syms) {
