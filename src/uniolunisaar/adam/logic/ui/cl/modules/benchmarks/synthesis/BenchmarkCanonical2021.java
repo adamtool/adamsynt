@@ -214,7 +214,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 Tools.saveFile(output, content);
                 break;
             }
-            case "explizit": {
+            case "explicit": {
                 PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
 
                 ExplicitASafetyWithoutType2Solver solverExp = (ExplicitASafetyWithoutType2Solver) ExplicitSolverFactory.getInstance().getSolver(game, new ExplicitSolverOptions());
