@@ -177,6 +177,25 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 Tools.saveFile(output, content);
                 break;
             }
+            case "stateSpaceLLBDD": {
+                PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
+                BDDSolverOptions opt = new BDDSolverOptions(true);
+                if (line.hasOption(PARAMETER_BDD_LIB)) {
+                    String lib = line.getOptionValue(PARAMETER_BDD_LIB);
+                    opt.setLibraryName(lib); // todo: check of correct input
+                }
+                opt.setNoType2(true);
+
+                DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(PGTools.getPetriGameFromParsedPetriNet(game, true, false), opt);
+                sol.initialize();
+
+                double sizeBDD = sol.getBufferedDCSs().satCount(sol.getFirstBDDVariables()) + 1; // for the additional init state
+                System.out.println("Number of states of the LL two-player game over a finite graph by solving BDD: " + sizeBDD); // todo: fix the logger...
+
+                String content = "" + sizeBDD + " & " + " & ";
+                Tools.saveFile(output, content);
+                break;
+            }
             case "LLBDDs": {
                 PetriGameWithTransits game = HL2PGConverter.convert(hlgame, true, true);
                 BDDSolverOptions opt = new BDDSolverOptions(true);
