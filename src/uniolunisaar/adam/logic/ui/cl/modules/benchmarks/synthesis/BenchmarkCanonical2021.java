@@ -224,6 +224,7 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 System.out.println("Low-Level approach explicit. Exists winning strategy: " + exWinStrat); // todo: fix the logger...
                 String content = solverExp.getGraph().getStates().size() + " & " + solverExp.getGraph().getFlows().size() + " & " + exWinStrat;
                 Tools.saveFile(output, content);
+                break;
             }
             case "membership": {
                 hlgame.storeSymmetries = true;
