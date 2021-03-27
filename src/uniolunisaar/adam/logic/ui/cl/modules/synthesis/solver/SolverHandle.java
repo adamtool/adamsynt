@@ -19,7 +19,7 @@ import uniolunisaar.adam.logic.synthesis.solver.Solver;
 import uniolunisaar.adam.ds.synthesis.solver.SolverOptions;
 import uniolunisaar.adam.ds.synthesis.solver.SolvingObject;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.exceptions.pnwt.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.CalculationInterruptedException;
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.AdamProtocolOutputKeys;
 import uniolunisaar.adam.ds.ui.cl.synthesis.serverprotocol.objects.ProtocolOutput;
 import uniolunisaar.adam.tools.Logger;

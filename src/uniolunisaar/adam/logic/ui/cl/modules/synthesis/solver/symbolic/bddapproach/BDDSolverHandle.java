@@ -12,7 +12,7 @@ import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
 import uniolunisaar.adam.ds.synthesis.pgwt.PetriGameWithTransits;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.exceptions.pnwt.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.CalculationInterruptedException;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.symbolic.bddapproach.BDDGraph;
 import uniolunisaar.adam.logic.synthesis.solver.symbolic.bddapproach.BDDSolver;

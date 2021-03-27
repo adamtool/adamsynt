@@ -17,7 +17,7 @@ import uniolunisaar.adam.exceptions.synthesis.pgwt.SolverDontFitPetriGameExcepti
 import uniolunisaar.adam.exceptions.synthesis.pgwt.NotSupportedGameException;
 import uniolunisaar.adam.exceptions.synthesis.pgwt.SolvingException;
 import uniolunisaar.adam.ds.objectives.Condition;
-import uniolunisaar.adam.exceptions.pnwt.CalculationInterruptedException;
+import uniolunisaar.adam.exceptions.CalculationInterruptedException;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.ds.graph.synthesis.twoplayergame.symbolic.bddapproach.BDDGraph;
 import uniolunisaar.adam.ds.synthesis.solver.symbolic.bddapproach.BDDSolverOptions;
