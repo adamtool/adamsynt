@@ -31,8 +31,9 @@ The theoretical background for Petri games and the decision procedure for one en
   [Petri games: Synthesis of distributed systems with causal memory](https://doi.org/10.1016/j.ic.2016.07.006). Inf. Comput. 253: 181-203 (2017)
 
 The practical parts and the BDD approach for the algorithms to solve Petri games with one environment and a bounded number of system players:
-- <img src="https://raw.githubusercontent.com/adamtool/synthesizer/master/doc/images/aec-badge_outer_trans.png" alt="CAV Artifact Evaluation Badge" width="25mm" height="25mm"> _Bernd Finkbeiner, Manuel Gieseking, Ernst-Rüdiger Olderog:_
+- _Bernd Finkbeiner, Manuel Gieseking, Ernst-Rüdiger Olderog:_
   [Adam: Causality-Based Synthesis of Distributed Systems](https://doi.org/10.1007/978-3-319-21690-4_25). CAV (1) 2015: 433-439
+   <img src="https://raw.githubusercontent.com/adamtool/synthesizer/master/doc/images/aec-badge_outer_trans.png" alt="CAV Artifact Evaluation Badge" width="25mm" height="25mm"> 
 - _Bernd Finkbeiner, Manuel Gieseking, Jesko Hecking-Harbusch, Ernst-Rüdiger Olderog:_
   [Symbolic vs. Bounded Synthesis for Petri Games](https://doi.org/10.4204/EPTCS.260.5). SYNT@CAV 2017: 23-43
 
