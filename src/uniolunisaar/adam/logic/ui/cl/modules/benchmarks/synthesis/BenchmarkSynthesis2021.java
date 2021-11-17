@@ -145,7 +145,9 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
 //        sb.append("sizes:")
         sb.append(sol.getSolvingObject().getMaxTokenCount()).append("  &  ").append(sol.getVariableNumber());
         sb.append("  &  ").append(sol.getGame().getPlaces().size()).append("  &  ").append(sol.getGame().getTransitions().size());
+        Tools.saveFile(output, sb.toString());
 
+        
         PetriGameWithTransits strategy = null;
         try {
             strategy = sol.getStrategy();
@@ -154,6 +156,7 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
         }
         boolean exWinStrat = strategy != null;
 
+        sb = new StringBuilder();
         if (exWinStrat) {
 //            sb.append("\nsizes_strat:").
             sb.append("  &  ").append(strategy.getPlaces().size()).append("  &  ").append(strategy.getTransitions().size());
@@ -164,7 +167,7 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
 
         sb.append("&").append(exWinStrat);
 
-        Tools.saveFile(output, sb.toString());
+        Tools.saveFile(output, sb.toString(), true);
     }
 
     private PetriGameWithTransits getLLGame(String id, int[] paras) throws ModuleException {
