@@ -126,7 +126,7 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
 //            String file = line.getOptionValue(PARAMETER_INTER_TIMING);
 //            Logger.getInstance().addMessageStream("INTERMEDIATE_TIMING", new PrintStream(file));
 //        }
-//        Logger.getInstance().setVerbose(false);
+        Logger.getInstance().setVerbose(true);
 //        Logger.getInstance().setVerboseMessageStream(null);
 
         String bench = elem[elem.length - 1];
@@ -139,8 +139,12 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
         opt.setNoType2(false);
         StringBuilder sb = new StringBuilder();
 
-        DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(PGTools.getPetriGameFromParsedPetriNet(game, true, false), opt);
+        PetriGameWithTransits pg = PGTools.getPetriGameFromParsedPetriNet(game, true, false);
+        System.out.println("created pg" +pg.getTransitions().size());
+        DistrSysBDDSolver<? extends Condition<?>> sol = DistrSysBDDSolverFactory.getInstance().getSolver(pg, opt);
+        System.out.println(sol.getSolvingObject().getMaxTokenCount());
         sol.initialize();
+        System.out.println("init finished");
 //        sb.append("#Tok, #Var, #P, #T, #P_s, #T_s\n");
 //        sb.append("sizes:")
         sb.append(sol.getSolvingObject().getMaxTokenCount()).append("  &  ").append(sol.getVariableNumber());
