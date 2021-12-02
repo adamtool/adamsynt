@@ -44,6 +44,7 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
     private static final String PARAMETER_APPROACH = "a";
     private static final String PARAMETER_BENCHMARK = "b";
     private static final String PARAMETER_BDD_LIB = "lib";
+    private static final String PARAMETER_REA = "rea";
 
     @Override
     protected Map<String, Option> createOptions() {
@@ -85,6 +86,10 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
         OptionBuilder.withLongOpt("library");
         options.put(PARAMETER_BDD_LIB, OptionBuilder.create(PARAMETER_BDD_LIB));
 
+        OptionBuilder.withDescription("Solve only the realizability problem.");
+        OptionBuilder.withLongOpt("realizability");
+        options.put(PARAMETER_REA, OptionBuilder.create(PARAMETER_REA));
+
 //        OptionBuilder.hasArg();
 //        OptionBuilder.withArgName("<filename>");
 //        OptionBuilder.withDescription("Activate the timing of intermediate steps and storing the results into the given file.");
@@ -114,6 +119,7 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
         String output = line.getOptionValue(PARAMETER_OUTPUT);
         String approach = line.getOptionValue(PARAMETER_APPROACH);
         String idInput = line.getOptionValue(PARAMETER_BENCHMARK);
+        boolean realizability = line.hasOption(PARAMETER_REA);
 
         // Get the Parameter and bench mark ID
         String id = idInput.substring(idInput.lastIndexOf("/") + 1);
@@ -149,17 +155,21 @@ public class BenchmarkSynthesis2021 extends AbstractSimpleModule {
         sb.append("  &  ").append(sol.getGame().getPlaces().size()).append("  &  ").append(sol.getGame().getTransitions().size());
         Tools.saveFile(output, sb.toString());
 
-        
         PetriGameWithTransits strategy = null;
+        boolean exWinStrat = false;
         try {
-            strategy = sol.getStrategy();
+            if (realizability) {
+                exWinStrat = sol.existsWinningStrategy();
+            } else {
+                strategy = sol.getStrategy();
+                exWinStrat = true;
+            }
         } catch (NoStrategyExistentException nse) {
 
         }
-        boolean exWinStrat = strategy != null;
 
         sb = new StringBuilder();
-        if (exWinStrat) {
+        if (exWinStrat && strategy != null) {
 //            sb.append("\nsizes_strat:").
             sb.append("  &  ").append(strategy.getPlaces().size()).append("  &  ").append(strategy.getTransitions().size());
         } else {
