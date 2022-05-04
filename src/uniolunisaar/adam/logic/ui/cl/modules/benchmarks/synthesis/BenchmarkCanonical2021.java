@@ -31,6 +31,7 @@ import uniolunisaar.adam.generators.highlevel.ClientServerHL;
 import uniolunisaar.adam.generators.highlevel.ConcurrentMachinesHL;
 import uniolunisaar.adam.generators.highlevel.DocumentWorkflowHL;
 import uniolunisaar.adam.generators.highlevel.PackageDeliveryHL;
+import uniolunisaar.adam.generators.highlevel.WhacAMole;
 import uniolunisaar.adam.generators.pgwt.Clerks;
 import uniolunisaar.adam.generators.pgwt.SecuritySystem;
 import uniolunisaar.adam.generators.pgwt.Workflow;
@@ -322,6 +323,10 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                             SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.ORDERED_DCS;
                             System.out.println("approach=dcs");
                             break;
+                        case "APPROX":
+                            SGGBuilderLLCanon.getInstance().approach = SGGBuilderLLCanon.Approach.APPROX;
+                            System.out.println("approach=approx");
+                            break;
                         default:
                             throw new RuntimeException("The approach " + approaches[3] + " is not supported.");
                     }
@@ -512,9 +517,14 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 return Clerks.generateNonCP(paras[0], true, false);
             case "DWs":
                 return Clerks.generateCP(paras[0], true, false);
-            case "PD":
+            case "PD": {
                 HLPetriGame hlgame = PackageDeliveryHL.generateEwithPool(paras[0], paras[1], true);
                 return HL2PGConverter.convert(hlgame, true, true);
+            }
+            case "WM": {
+                HLPetriGame hlgame = WhacAMole.create(paras[0], true);
+                return HL2PGConverter.convert(hlgame, true, true);
+            }
             default:
                 throw new ModuleException("Benchmark " + id + " not yet implemented.");
         }
@@ -534,6 +544,8 @@ public class BenchmarkCanonical2021 extends AbstractSimpleModule {
                 return PackageDeliveryHL.generateEwithPool(paras[0], paras[1], true);
             case "CS":
                 return ClientServerHL.create(paras[0], true);
+            case "WM":
+                return WhacAMole.create(paras[0], true);
             default:
                 throw new ModuleException("Benchmark " + id + " not yet implemented.");
         }
